@@ -13,5 +13,5 @@ class TimesheetAssistant : public QMainWindow {
   TimesheetAssistant(QWidget* parent = Q_NULLPTR);
 
  private:
-  std::shared_ptr<Ui::TimesheetAssistant> m_ui;
+  std::shared_ptr<Ui::TimesheetAssistant> m_pUi;
 };
