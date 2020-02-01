@@ -50,6 +50,4 @@ compile_commands.json
 
 # QtCreator local machine specific files for imported projects
 *creator.user*
-/TimesheetAssistant/.vs
-/TimesheetAssistant/TimesheetAssistant/x64
-/.vs
+
