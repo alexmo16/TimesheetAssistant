@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{DDCE7C1C-A955-4677-8173-BB9A6D128161}</ProjectGuid>
+    <ProjectGuid>{A585E344-4AD1-4094-B647-7DC979C76C45}</ProjectGuid>
     <Keyword>QtVS_v302</Keyword>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <QtMsBuild Condition="'$(QtMsBuild)'=='' OR !Exists('$(QtMsBuild)\qt.targets')">$(MSBuildProjectDirectory)\QtMsBuild</QtMsBuild>
@@ -80,20 +80,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="..\main.cpp" />
     <ClCompile Include="MainWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="MainWindow.h" />
   </ItemGroup>
   <ItemGroup>
-    <QtUic Include="MainWindow.ui" />
+    <QtUic Include="gui\MainWindow.ui" />
   </ItemGroup>
   <ItemGroup>
-    <QtRcc Include="MainWindow.qrc" />
+    <QtRcc Include="Resources\MainWindow.qrc" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="TimesheetAssistant.rc" />
+    <Image Include="Resources\TimesheetAssistant.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resources\TimesheetAssistant.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
