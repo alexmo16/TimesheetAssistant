@@ -1,5 +1,7 @@
 #include "MainWindow.h"
 
+#include "Model/Model.h"
+
 namespace View
 {
 	MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
