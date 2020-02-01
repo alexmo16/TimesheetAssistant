@@ -40,23 +40,28 @@
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
-    <QtRcc Include="MainWindow.qrc">
+    <QtRcc Include="Resources\MainWindow.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
   </ItemGroup>
   <ItemGroup>
-    <QtUic Include="MainWindow.ui">
-      <Filter>Source Files\gui</Filter>
-    </QtUic>
+    <None Include="..\..\.clang-format" />
+    <None Include="..\..\.gitignore" />
+    <None Include="..\..\README.md" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="TimesheetAssistant.ico">
+    <Image Include="Resources\TimesheetAssistant.ico">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="TimesheetAssistant.rc">
+    <ResourceCompile Include="Resources\TimesheetAssistant.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="gui\MainWindow.ui">
+      <Filter>Source Files\gui</Filter>
+    </QtUic>
   </ItemGroup>
 </Project>
