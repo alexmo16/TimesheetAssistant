@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{A585E344-4AD1-4094-B647-7DC979C76C45}</ProjectGuid>
+    <ProjectGuid>{D22CFED6-02E6-45D1-8042-E03E28057250}</ProjectGuid>
     <Keyword>QtVS_v302</Keyword>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <QtMsBuild Condition="'$(QtMsBuild)'=='' OR !Exists('$(QtMsBuild)\qt.targets')">$(MSBuildProjectDirectory)\QtMsBuild</QtMsBuild>
@@ -59,7 +59,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
-      <AdditionalIncludeDirectories>D:\dev\TimesheetAssistant\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -73,7 +73,7 @@
       <DebugInformationFormat />
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
-      <AdditionalIncludeDirectories>D:\dev\TimesheetAssistant\src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -82,28 +82,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\main.cpp" />
-    <ClCompile Include="MainWindow.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Model\Test.cpp" />
+    <ClCompile Include="View\MainWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="MainWindow.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <QtUic Include="gui\MainWindow.ui" />
-  </ItemGroup>
-  <ItemGroup>
-    <QtRcc Include="Resources\MainWindow.qrc" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="Resources\TimesheetAssistant.ico" />
+    <CustomBuild Include="Resources\TimesheetAssistant.qrc" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resources\TimesheetAssistant.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\.clang-format" />
-    <None Include="..\..\.gitignore" />
-    <None Include="..\..\README.md" />
+    <Image Include="Resources\TimesheetAssistant.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="View\MainWindow.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="View\gui\MainWindow.ui" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="Model\Test.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ui_MainWindow.h"
+
 #include <QtWidgets/QMainWindow>
 
 namespace View
@@ -15,4 +16,5 @@ namespace View
 	private:
 		Ui::MainWindowClass ui;
 	};
+
 } // namespace View

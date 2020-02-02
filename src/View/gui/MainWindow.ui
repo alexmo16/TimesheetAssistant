@@ -14,7 +14,7 @@
    <string>TimesheetAssistant</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QLineEdit" name="lineEdit">
+   <widget class="QLineEdit" name="testInput">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>HelloWorld!</string>
+     <string/>
     </property>
    </widget>
   </widget>
@@ -55,20 +55,20 @@
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
-  <action name="actionAbout">
-   <property name="text">
-    <string>About TimesheetAssistant</string>
-   </property>
-  </action>
   <action name="actionTimesheetAssistant_Help">
    <property name="text">
     <string>TimesheetAssistant Help</string>
    </property>
   </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>About</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
-  <include location="../Resources/MainWindow.qrc"/>
+  <include location="../../Resources/TimesheetAssistant.qrc"/>
  </resources>
  <connections/>
 </ui>
