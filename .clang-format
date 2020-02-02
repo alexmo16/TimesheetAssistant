@@ -21,7 +21,7 @@ BraceWrapping:
   AfterUnion: true    # TODO: verify
   BeforeCatch: true
   BeforeElse: true
-  IndentBraces: true
+  IndentBraces: false
   SplitEmptyFunction: true
   SplitEmptyRecord: true
 BreakBeforeBraces: Custom

@@ -4,6 +4,12 @@
 
 #include <QtWidgets/QMainWindow>
 
+namespace Model
+{
+	class ModelThread;
+
+} // namespace Model
+
 namespace View
 {
 	class MainWindow : public QMainWindow
@@ -11,10 +17,14 @@ namespace View
 		Q_OBJECT
 
 	public:
-		MainWindow( QWidget* parent = Q_NULLPTR );
+		MainWindow( std::shared_ptr<Model::ModelThread> pModelThread_, QWidget* pParent_ = Q_NULLPTR );
+
+		void MainWindow::closeEvent( QCloseEvent* pEvent_ ) override;
 
 	private:
 		Ui::MainWindowClass ui;
+
+		std::shared_ptr<Model::ModelThread> m_pModelThread;
 	};
 
 } // namespace View
