@@ -17,7 +17,11 @@ namespace Model
 		m_isRunning = true;
 		qInfo() << "ModelThread started...";
 
-		EventsSniffer sniffer( this );
+		// Event 4800 of Security is "Locked" and 4801 is "Unlocked" [System[(EventID=4800 or EventID=4801)]]
+		const std::wstring query = L"Event/System[(EventID=4800 or EventID=4801)]";
+		const std::wstring channel = L"Security";
+
+		EventsSniffer sniffer( channel, query, this );
 
 		while ( m_isRunning )
 		{

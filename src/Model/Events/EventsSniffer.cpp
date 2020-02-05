@@ -111,7 +111,11 @@ namespace // anonymous
 
 namespace Model
 {
-	EventsSniffer::EventsSniffer( QObject* pParent_ /*= Q_NULLPTR*/ ) : QObject( pParent_ ) {}
+	EventsSniffer::EventsSniffer(
+		const std::wstring& channel_, const std::wstring& query_, QObject* pParent_ /*= Q_NULLPTR*/ )
+		: QObject( pParent_ ), m_channel( channel_ ), m_query( query_ )
+	{
+	}
 
 	bool EventsSniffer::Sniff()
 	{

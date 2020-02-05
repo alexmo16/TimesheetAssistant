@@ -12,14 +12,13 @@ namespace Model
 		Q_OBJECT
 
 	public:
-		EventsSniffer( QObject* pParent_ = Q_NULLPTR );
+		EventsSniffer( const std::wstring& channel_, const std::wstring& query_, QObject* pParent_ = Q_NULLPTR );
 
 		bool Sniff();
 
 	private:
-		const std::wstring m_channel = L"Security";
-		// Event 4800 of Security is "Locked" and 4801 is "Unlocked" [System[(EventID=4800 or EventID=4801)]]
-		const std::wstring m_query = L"Event/System[(EventID=4800 or EventID=4801)]";
+		const std::wstring m_channel; // Channel to listen.
+		const std::wstring m_query;	  // Query to do on the channel.
 
 		const size_t m_arraySize = 10;
 		const int m_queryTimeout = 1000; // 1 second; Set and use in place of INFINITE in EvtNext call
