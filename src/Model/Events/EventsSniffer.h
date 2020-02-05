@@ -17,10 +17,6 @@ namespace Model
 		bool Sniff();
 
 	private:
-		DWORD PrintQueryStatuses( EVT_HANDLE hResults_ );
-		DWORD GetQueryStatusProperty( EVT_QUERY_PROPERTY_ID id_, EVT_HANDLE hResults_, PEVT_VARIANT& pProperty_ );
-		DWORD PrintResults( EVT_HANDLE hResults_ );
-
 		const std::wstring m_channel = L"Security";
 		// Event 4800 of Security is "Locked" and 4801 is "Unlocked" [System[(EventID=4800 or EventID=4801)]]
 		const std::wstring m_query = L"Event/System[(EventID=4800 or EventID=4801)]";
