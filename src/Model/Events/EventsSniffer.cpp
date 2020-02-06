@@ -14,9 +14,10 @@ namespace // anonymous
 #define ARRAY_SIZE 10
 #define TIMEOUT 1000
 
-	// Print a single event in the console
-	DWORD _PrintEvent( EVT_HANDLE event_ )
+	// Render a single event
+	DWORD _RenderEvent( EVT_HANDLE event_, QString& xmlEvent_ )
 	{
+		xmlEvent_ = "";
 		DWORD status = ERROR_SUCCESS;
 		DWORD bufferSize = 0;
 		DWORD bufferUsed = 0;
@@ -48,7 +49,10 @@ namespace // anonymous
 
 		if ( status == ERROR_SUCCESS )
 		{
-			qInfo() << QString::fromStdWString( pRenderedContent );
+			if ( pRenderedContent != 0 )
+			{
+				xmlEvent_ = QString::fromStdWString( pRenderedContent );
+			}
 		}
 		else
 		{
@@ -64,7 +68,7 @@ namespace // anonymous
 	}
 
 	// Enumerate all the events in the result set.
-	DWORD _PrintResults( const EVT_HANDLE& results_ )
+	DWORD _RenderResults( const EVT_HANDLE& results_, std::vector<QString>& xmlEvents_ )
 	{
 		DWORD status = ERROR_SUCCESS;
 		EVT_HANDLE events[ ARRAY_SIZE ];
@@ -81,14 +85,18 @@ namespace // anonymous
 				break;
 			}
 
-			// For each event, call the PrintEvent function which renders the
-			// event for display. PrintEvent is shown in RenderingEvents.
+			// For each event, call the PrintEvent function which renders the event for display.
+			QString tempXmlString;
 			for ( DWORD i = 0; i < wordReturned; i++ )
 			{
-				status = _PrintEvent( events[ i ] );
+				status = _RenderEvent( events[ i ], tempXmlString );
 				if ( status != ERROR_SUCCESS )
 				{
 					break;
+				}
+				if ( !tempXmlString.isEmpty() )
+				{
+					xmlEvents_.push_back( tempXmlString );
 				}
 				EvtClose( events[ i ] );
 				events[ i ] = nullptr;
@@ -117,7 +125,7 @@ namespace Model
 	{
 	}
 
-	bool EventsSniffer::Sniff()
+	bool EventsSniffer::Sniff( std::vector<QString>& xmlEvents_ )
 	{
 		DWORD status = ERROR_SUCCESS;
 
@@ -148,7 +156,7 @@ namespace Model
 		// If there is no error in the query, lets process the result to retrieve a human readable message.
 		if ( errorMessage.isEmpty() )
 		{
-			status = _PrintResults( results );
+			status = _RenderResults( results, xmlEvents_ );
 		}
 
 		// No matter if there is an error or not, we need to cleanup.

@@ -23,6 +23,7 @@ namespace Model
 
 		EventsSniffer sniffer( channel, query, this );
 
+		std::vector<QString> xmlEvents;
 		while ( m_isRunning )
 		{
 			qInfo() << "ModelThead tick...";
@@ -30,10 +31,16 @@ namespace Model
 			// Trying to query the windows events API.
 			try
 			{
-				const bool isInError = !sniffer.Sniff();
+				const bool isInError = !sniffer.Sniff( xmlEvents );
 				if ( isInError )
 				{
 					break;
+				}
+				if ( !xmlEvents.empty() )
+				{
+					qInfo() << xmlEvents;
+					qInfo() << xmlEvents.size();
+					xmlEvents.clear();
 				}
 			}
 			catch ( ... )
