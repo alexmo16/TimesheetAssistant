@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Event.h"
+
 #include <QObject>
 
 #include <windows.h>
@@ -14,7 +16,7 @@ namespace Model
 	public:
 		EventsSniffer( const std::wstring& channel_, const std::wstring& query_, QObject* pParent_ = Q_NULLPTR );
 
-		bool Sniff( QVector<QString>& xmlEvents_ );
+		bool Sniff( TEvents& events_ );
 
 	private:
 		const std::wstring m_channel; // Channel to listen.

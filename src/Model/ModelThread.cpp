@@ -1,5 +1,6 @@
 #include "ModelThread.h"
 
+#include "Events/Event.h"
 #include "Events/EventsSniffer.h"
 
 #include <QDebug>
@@ -23,7 +24,7 @@ namespace Model
 
 		EventsSniffer sniffer( channel, query, this );
 
-		QVector<QString> xmlEvents;
+		TEvents events;
 		while ( m_isRunning )
 		{
 			qInfo() << "ModelThead tick...";
@@ -31,16 +32,20 @@ namespace Model
 			// Trying to query the windows events API.
 			try
 			{
-				const bool isInError = !sniffer.Sniff( xmlEvents );
+				const bool isInError = !sniffer.Sniff( events );
 				if ( isInError )
 				{
 					break;
 				}
-				if ( !xmlEvents.empty() )
+				if ( !events.empty() )
 				{
-					qInfo() << xmlEvents;
-					qInfo() << xmlEvents.size();
-					xmlEvents.clear();
+					for ( const auto& pEvent : events )
+					{
+						qInfo() << "Time: " << pEvent->GetDateTime();
+						qInfo() << "Event ID: " << pEvent->GetEventType();
+					}
+					qInfo() << events.size();
+					events.clear();
 				}
 			}
 			catch ( ... )

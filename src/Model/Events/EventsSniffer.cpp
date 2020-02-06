@@ -1,5 +1,7 @@
 #include "EventsSniffer.h"
 
+#include "Event.h"
+
 #include <QDebug>
 #include <QObject>
 #include <QString>
@@ -15,9 +17,8 @@ namespace // anonymous
 #define TIMEOUT 1000
 
 	// Render a single event
-	DWORD _RenderEvent( EVT_HANDLE event_, QString& xmlEvent_ )
+	DWORD _RenderEvent( EVT_HANDLE event_, std::unique_ptr<Model::Event>& pXmlEvent_ )
 	{
-		xmlEvent_ = "";
 		DWORD status = ERROR_SUCCESS;
 		DWORD bufferSize = 0;
 		DWORD bufferUsed = 0;
@@ -51,7 +52,7 @@ namespace // anonymous
 		{
 			if ( pRenderedContent != 0 )
 			{
-				xmlEvent_ = QString::fromStdWString( pRenderedContent );
+				pXmlEvent_ = std::make_unique<Model::Event>( QString::fromStdWString( pRenderedContent ) );
 			}
 		}
 		else
@@ -68,7 +69,7 @@ namespace // anonymous
 	}
 
 	// Enumerate all the events in the result set.
-	DWORD _RenderResults( const EVT_HANDLE& results_, QVector<QString>& xmlEvents_ )
+	DWORD _RenderResults( const EVT_HANDLE& results_, Model::TEvents& xmlEvents_ )
 	{
 		DWORD status = ERROR_SUCCESS;
 		EVT_HANDLE events[ ARRAY_SIZE ];
@@ -86,17 +87,17 @@ namespace // anonymous
 			}
 
 			// For each event, call the PrintEvent function which renders the event for display.
-			QString tempXmlString;
+			std::unique_ptr<Model::Event> pTmpEvent;
 			for ( DWORD i = 0; i < wordReturned; i++ )
 			{
-				status = _RenderEvent( events[ i ], tempXmlString );
+				status = _RenderEvent( events[ i ], pTmpEvent );
 				if ( status != ERROR_SUCCESS )
 				{
 					break;
 				}
-				if ( !tempXmlString.isEmpty() )
+				if ( pTmpEvent != nullptr )
 				{
-					xmlEvents_.push_back( tempXmlString );
+					xmlEvents_.push_back( std::move( pTmpEvent ) );
 				}
 				EvtClose( events[ i ] );
 				events[ i ] = nullptr;
@@ -125,7 +126,7 @@ namespace Model
 	{
 	}
 
-	bool EventsSniffer::Sniff( QVector<QString>& xmlEvents_ )
+	bool EventsSniffer::Sniff( TEvents& events_ )
 	{
 		DWORD status = ERROR_SUCCESS;
 
@@ -156,7 +157,7 @@ namespace Model
 		// If there is no error in the query, lets process the result to retrieve a human readable message.
 		if ( errorMessage.isEmpty() )
 		{
-			status = _RenderResults( results, xmlEvents_ );
+			status = _RenderResults( results, events_ );
 		}
 
 		// No matter if there is an error or not, we need to cleanup.

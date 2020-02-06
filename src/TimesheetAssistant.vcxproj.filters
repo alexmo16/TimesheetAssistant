@@ -37,6 +37,9 @@
     <ClCompile Include="Model\ModelThread.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Model\Events\Event.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="Resources\TimesheetAssistant.qrc">
@@ -61,6 +64,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="Model\ModelThread.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="Model\Events\Event.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
