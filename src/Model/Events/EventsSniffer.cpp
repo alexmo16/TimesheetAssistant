@@ -68,7 +68,7 @@ namespace // anonymous
 	}
 
 	// Enumerate all the events in the result set.
-	DWORD _RenderResults( const EVT_HANDLE& results_, std::vector<QString>& xmlEvents_ )
+	DWORD _RenderResults( const EVT_HANDLE& results_, QVector<QString>& xmlEvents_ )
 	{
 		DWORD status = ERROR_SUCCESS;
 		EVT_HANDLE events[ ARRAY_SIZE ];
@@ -125,7 +125,7 @@ namespace Model
 	{
 	}
 
-	bool EventsSniffer::Sniff( std::vector<QString>& xmlEvents_ )
+	bool EventsSniffer::Sniff( QVector<QString>& xmlEvents_ )
 	{
 		DWORD status = ERROR_SUCCESS;
 

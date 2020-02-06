@@ -23,7 +23,7 @@ namespace Model
 
 		EventsSniffer sniffer( channel, query, this );
 
-		std::vector<QString> xmlEvents;
+		QVector<QString> xmlEvents;
 		while ( m_isRunning )
 		{
 			qInfo() << "ModelThead tick...";

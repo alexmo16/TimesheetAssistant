@@ -14,7 +14,7 @@ namespace Model
 	public:
 		EventsSniffer( const std::wstring& channel_, const std::wstring& query_, QObject* pParent_ = Q_NULLPTR );
 
-		bool Sniff( std::vector<QString>& xmlEvents_ );
+		bool Sniff( QVector<QString>& xmlEvents_ );
 
 	private:
 		const std::wstring m_channel; // Channel to listen.
