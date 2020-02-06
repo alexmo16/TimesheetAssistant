@@ -41,8 +41,11 @@ namespace Model
 				{
 					for ( const auto& pEvent : events )
 					{
-						qInfo() << "Time: " << pEvent->GetDateTime();
-						qInfo() << "Event ID: " << pEvent->GetEventType();
+						if ( pEvent != nullptr )
+						{
+							qInfo() << "Time: " << pEvent->GetDateTime();
+							qInfo() << "Event ID: " << pEvent->GetEventType();
+						}
 					}
 					qInfo() << events.size();
 					events.clear();
