@@ -8,6 +8,8 @@
 
 namespace Model
 {
+	constexpr auto SLEEP_TIME = 10000;
+
 	ModelThread::ModelThread( QObject* pParent_ ) : QThread( pParent_ )
 	{
 		this->moveToThread( this );
@@ -55,7 +57,7 @@ namespace Model
 			{
 			}
 
-			msleep( 1000 );
+			msleep( SLEEP_TIME );
 		}
 
 		qInfo() << "ModelThread stopped...";
