@@ -1,8 +1,10 @@
 #include "QueryParser.h"
 
 #include "Event.h"
+#include "Utils/NotImplemented.h"
 
 #include <QDebug>
+#include <QtGlobal>
 #include <windows.h>
 #include <winevt.h>
 
@@ -62,6 +64,18 @@ namespace Model
 		return status;
 	}
 
+	void _KeepCurrentWeekEvents( Model::TEvents& events_ )
+	{
+		throw NotImplemented();
+		return;
+	}
+
+	void _KeepWeekendEvents( Model::TEvents& events_ )
+	{
+		throw NotImplemented();
+		return;
+	}
+
 	QueryParser::QueryParser( QObject* pParent_ /*= Q_NULLPTR*/ ) : QObject( pParent_ ) {}
 
 	// Enumerate all the events in the result set.
@@ -111,6 +125,21 @@ namespace Model
 		}
 
 		return status == ERROR_SUCCESS || status == ERROR_NO_MORE_ITEMS ? ERROR_SUCCESS : status;
+	}
+
+	void QueryParser::ApplyEventsFilter( const EventsFilter filter_, Model::TEvents& events_ ) const
+	{
+		switch ( filter_ )
+		{
+		case EventsFilter::E_CURRENT_WEEK_EVENTS:
+			_KeepCurrentWeekEvents( events_ );
+			break;
+		case EventsFilter::E_WEEKEND_EVENTS:
+			_KeepWeekendEvents( events_ );
+			break;
+		default:
+			Q_ASSERT_X( false, "ApplyEventsFilter", "Filter type not supported" );
+		}
 	}
 
 } // namespace Model

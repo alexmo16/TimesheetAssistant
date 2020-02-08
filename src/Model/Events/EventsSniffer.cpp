@@ -53,6 +53,7 @@ namespace Model
 		if ( errorMessage.isEmpty() )
 		{
 			status = parser.ParseToEvents( results, events_ );
+			parser.ApplyEventsFilter( QueryParser::EventsFilter::E_CURRENT_WEEK_EVENTS, events_ );
 		}
 
 		// No matter if there is an error or not, we need to cleanup.

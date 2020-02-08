@@ -49,6 +49,9 @@
     <ClCompile Include="Model\Timesheet\TimesheetBuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Model\Timesheet\WorkDay.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="Resources\TimesheetAssistant.qrc">
@@ -87,6 +90,9 @@
     <QtMoc Include="Model\Timesheet\TimesheetBuilder.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="Model\Timesheet\WorkDay.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="View\gui\MainWindow.ui">
@@ -96,5 +102,10 @@
   <ItemGroup>
     <None Include="..\.clang-format" />
     <None Include="..\README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Model\Utils\NotImplemented.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

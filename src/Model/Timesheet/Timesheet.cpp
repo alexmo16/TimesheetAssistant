@@ -5,7 +5,7 @@
 namespace Model
 {
 	Timesheet::Timesheet( TWorkDays workDays_, QObject* pParent_ /*= Q_NULLPTR*/ )
-		: QObject( pParent_ ), m_workDays( workDays_ )
+		: QObject( pParent_ ), m_workDays( std::move( workDays_ ) )
 	{
 	}
 

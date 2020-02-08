@@ -60,8 +60,17 @@ namespace Model
 				_LogEvents( events );
 				events.clear();
 			}
+			catch ( const std::exception& exception )
+			{
+				qCritical() << "An exception occurred: " << exception.what();
+				Q_ASSERT_X( false, "ModelThread", exception.what() );
+				break;
+			}
 			catch ( ... )
 			{
+				qCritical() << "An unknown exception occurred";
+				Q_ASSERT_X( false, "ModelThread", "An unknown exception occurred" );
+				break;
 			}
 
 			msleep( SLEEP_TIME );

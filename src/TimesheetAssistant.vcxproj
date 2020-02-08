@@ -59,7 +59,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
-      <AdditionalIncludeDirectories>./;.\Model;.\Model\Timesheet;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./;.\Model;.\Model\Timesheet;.\Model\Utils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -73,7 +73,7 @@
       <DebugInformationFormat />
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
-      <AdditionalIncludeDirectories>.\;.\Model;.\Model\Timesheet;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\;.\Model;.\Model\Timesheet;.\Model\Utils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -89,6 +89,7 @@
     <ClCompile Include="Model\Events\QueryParser.cpp" />
     <ClCompile Include="Model\Timesheet\Timesheet.cpp" />
     <ClCompile Include="Model\Timesheet\TimesheetBuilder.cpp" />
+    <ClCompile Include="Model\Timesheet\WorkDay.cpp" />
     <ClCompile Include="View\MainWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -127,6 +128,12 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Model\Timesheet\TimesheetBuilder.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="Model\Timesheet\WorkDay.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Model\Utils\NotImplemented.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Events/Event.h"
-
 #include <QObject>
+
+#include <vector>
 
 namespace Model
 {
