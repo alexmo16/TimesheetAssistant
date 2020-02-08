@@ -10,6 +10,20 @@ namespace Model
 {
 	constexpr auto SLEEP_TIME = 5000;
 
+	// Log queried events informations.
+	void _LogEvents( const TEvents& events_ )
+	{
+		for ( const auto& pEvent : events_ )
+		{
+			if ( pEvent != nullptr )
+			{
+				qInfo() << "Time: " << pEvent->GetDateTime();
+				qInfo() << "Event ID: " << pEvent->GetEventType();
+			}
+		}
+		qInfo() << events_.size();
+	}
+
 	ModelThread::ModelThread( QObject* pParent_ ) : QThread( pParent_ )
 	{
 		this->moveToThread( this );
@@ -31,9 +45,11 @@ namespace Model
 		TEvents events;
 		while ( m_isRunning )
 		{
+			// TODO a thread that polls the API every X seconds is not optimal.
+			// Should have a subscriber instead.
 			qInfo() << "ModelThead tick...";
 
-			// Trying to query the windows events API.
+			// Try to query the windows events API.
 			try
 			{
 				const bool isInError = !sniffer.Sniff( events );
@@ -41,19 +57,8 @@ namespace Model
 				{
 					break;
 				}
-				if ( !events.empty() )
-				{
-					for ( const auto& pEvent : events )
-					{
-						if ( pEvent != nullptr )
-						{
-							qInfo() << "Time: " << pEvent->GetDateTime();
-							qInfo() << "Event ID: " << pEvent->GetEventType();
-						}
-					}
-					qInfo() << events.size();
-					events.clear();
-				}
+				_LogEvents( events );
+				events.clear();
 			}
 			catch ( ... )
 			{

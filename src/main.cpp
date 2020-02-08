@@ -2,6 +2,7 @@
 #include "View/MainWindow.h"
 
 #include <QtWidgets/QApplication>
+#pragma comment( lib, "wevtapi.lib" )
 
 int main( int argc, char* argv[] )
 {

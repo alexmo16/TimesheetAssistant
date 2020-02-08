@@ -40,6 +40,15 @@
     <ClCompile Include="Model\Events\Event.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Model\Events\QueryParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\Timesheet\Timesheet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\Timesheet\TimesheetBuilder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="Resources\TimesheetAssistant.qrc">
@@ -69,6 +78,15 @@
     <QtMoc Include="Model\Events\Event.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="Model\Events\QueryParser.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="Model\Timesheet\Timesheet.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="Model\Timesheet\TimesheetBuilder.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="View\gui\MainWindow.ui">
@@ -77,5 +95,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.clang-format" />
+    <None Include="..\README.md" />
   </ItemGroup>
 </Project>
