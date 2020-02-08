@@ -8,7 +8,7 @@
 
 namespace Model
 {
-	constexpr auto SLEEP_TIME = 10000;
+	constexpr auto SLEEP_TIME = 5000;
 
 	ModelThread::ModelThread( QObject* pParent_ ) : QThread( pParent_ )
 	{
@@ -21,7 +21,9 @@ namespace Model
 		qInfo() << "ModelThread started...";
 
 		// Event 4800 of Security is "Locked" and 4801 is "Unlocked" [System[(EventID=4800 or EventID=4801)]]
-		const std::wstring query = L"Event/System[(EventID=4800 or EventID=4801)]";
+		// Only last 7 days are query to not ask for all events logged since the Big Bang.
+		const std::wstring query = L"Event/System[(EventID=4800 or EventID=4801)] and "
+								   L"Event/System/TimeCreated[timediff(@SystemTime) <= 604800000]";
 		const std::wstring channel = L"Security";
 
 		EventsSniffer sniffer( channel, query, this );
