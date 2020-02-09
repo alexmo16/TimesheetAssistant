@@ -1,5 +1,6 @@
 #include "Event.h"
 
+#include <QDateTime>
 #include <QDebug>
 #include <QString>
 #include <QtXml/QDomDocument>
@@ -21,7 +22,22 @@ namespace Model
 		const QDomElement& systemElement = doc.elementsByTagName( "System" ).at( 0 ).toElement();
 
 		m_type = EventType( systemElement.elementsByTagName( "EventID" ).at( 0 ).toElement().text().toInt() );
-		m_dateTime = systemElement.elementsByTagName( "TimeCreated" ).at( 0 ).toElement().attribute( "SystemTime" );
+		const QString& systemTime =
+			systemElement.elementsByTagName( "TimeCreated" ).at( 0 ).toElement().attribute( "SystemTime" );
+
+		const auto splittedTime = systemTime.split( "." );
+		if ( splittedTime.isEmpty() )
+		{
+			Q_ASSERT( false );
+			return;
+		}
+
+		const QString& timeWithoutMs = splittedTime.first();
+		if ( !timeWithoutMs.isEmpty() )
+		{
+			m_dateTime = QDateTime::fromString( timeWithoutMs, "yyyy-MM-ddTHH:mm:ss" );
+			Q_ASSERT( m_dateTime.isValid() );
+		}
 	}
 
 } // namespace Model

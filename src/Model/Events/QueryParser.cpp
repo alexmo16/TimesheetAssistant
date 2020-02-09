@@ -66,14 +66,49 @@ namespace Model
 
 	void _KeepCurrentWeekEvents( Model::TEvents& events_ )
 	{
-		throw NotImplemented();
-		return;
+		Model::TEvents filteredEvents;
+
+		for ( auto& pEvent : events_ )
+		{
+			if ( pEvent == nullptr )
+			{
+				continue;
+			}
+
+			// 1 = Monday and 7 = Sunday
+			const int dayNumber = pEvent->GetDateTime().date().dayOfWeek();
+			// we compare to 5 because it is the last work day (friday).
+			if ( ( dayNumber - 5 ) <= 0 )
+			{
+				filteredEvents.push_back( std::move( pEvent ) );
+			}
+		}
+
+		events_ = std::move( filteredEvents );
 	}
 
 	void _KeepWeekendEvents( Model::TEvents& events_ )
 	{
-		throw NotImplemented();
-		return;
+
+		Model::TEvents filteredEvents;
+
+		for ( auto& pEvent : events_ )
+		{
+			if ( pEvent == nullptr )
+			{
+				continue;
+			}
+
+			// 1 = Monday and 7 = Sunday
+			const int dayNumber = pEvent->GetDateTime().date().dayOfWeek();
+			// we compare to 5 because it is the last work day (friday).
+			if ( ( dayNumber - 5 ) > 0 )
+			{
+				filteredEvents.push_back( std::move( pEvent ) );
+			}
+		}
+
+		events_ = std::move( filteredEvents );
 	}
 
 	QueryParser::QueryParser( QObject* pParent_ /*= Q_NULLPTR*/ ) : QObject( pParent_ ) {}

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <QDateTime>
 #include <QObject>
 
 class QString;
@@ -23,7 +24,7 @@ namespace Model
 		Event( QObject* pParent_ = Q_NULLPTR );
 		Event( const QString& xmlEvent_, QObject* pParent_ = Q_NULLPTR );
 
-		QString GetDateTime() const
+		QDateTime GetDateTime() const
 		{
 			return m_dateTime;
 		}
@@ -36,7 +37,7 @@ namespace Model
 		void SetInfoFromXml( const QString& xmlEvent_ );
 
 	private:
-		QString m_dateTime = "";
+		QDateTime m_dateTime;
 		EventType m_type = EventType::E_NONE;
 	};
 
