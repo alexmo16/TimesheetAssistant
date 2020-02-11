@@ -2,6 +2,8 @@
 
 #include "Events/Event.h"
 #include "Events/EventsSniffer.h"
+#include "Timesheet/Timesheet.h"
+#include "Timesheet/TimesheetBuilder.h"
 
 #include <QDebug>
 #include <QThread>
@@ -24,6 +26,20 @@ namespace Model
 		qInfo() << events_.size();
 	}
 
+	// Log a timesheet workdays
+	void _logTimesheet( const Timesheet& timesheet_ )
+	{
+		const TWorkDays& workDays = timesheet_.GetWorkDays();
+		for ( const auto& pWorkDay : workDays )
+		{
+			if ( pWorkDay == nullptr )
+			{
+				continue;
+			}
+			qInfo() << "WorkedTime: " << pWorkDay->GetWorkTime();
+		}
+	}
+
 	ModelThread::ModelThread( QObject* pParent_ ) : QThread( pParent_ )
 	{
 		this->moveToThread( this );
@@ -43,6 +59,8 @@ namespace Model
 		EventsSniffer sniffer( channel, query, this );
 
 		TEvents events;
+		TimesheetBuilder timesheetBuilder( this );
+		Timesheet timesheet;
 		while ( m_isRunning )
 		{
 			// TODO a thread that polls the API every X seconds is not optimal.
@@ -58,6 +76,9 @@ namespace Model
 					break;
 				}
 				_LogEvents( events );
+				timesheetBuilder.Build( events, timesheet );
+				qInfo() << "-------------------------------------------------";
+				_logTimesheet( timesheet );
 				events.clear();
 			}
 			catch ( const std::exception& exception )
