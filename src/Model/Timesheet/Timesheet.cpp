@@ -20,5 +20,4 @@ namespace Model
 	{
 		m_workDays = workDays_;
 	}
-
 } // namespace Model

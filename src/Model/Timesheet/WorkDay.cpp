@@ -5,7 +5,7 @@
 
 namespace Model
 {
-	WorkDay::WorkDay( QObject* pParent_ /*= Q_NULLPTR*/ ) : QObject( pParent_ ) {}
+	WorkDay::WorkDay( const QDate& date_, QObject* pParent_ /*= Q_NULLPTR*/ ) : QObject( pParent_ ), m_date( date_ ) {}
 
 	QTime WorkDay::GetWorkTime()
 	{
