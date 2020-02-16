@@ -36,6 +36,8 @@ namespace Model
 		if ( !timeWithoutMs.isEmpty() )
 		{
 			m_dateTime = QDateTime::fromString( timeWithoutMs, "yyyy-MM-ddTHH:mm:ss" );
+			m_dateTime.setTimeSpec( Qt::UTC );
+			m_dateTime = m_dateTime.toLocalTime();
 			Q_ASSERT( m_dateTime.isValid() );
 		}
 	}
