@@ -31,9 +31,6 @@
     <ClCompile Include="View\MainWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Model\Events\EventsSniffer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Model\ModelThread.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -73,9 +70,6 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="View\MainWindow.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="Model\Events\EventsSniffer.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="Model\ModelThread.h">

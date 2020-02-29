@@ -1,16 +1,18 @@
 #include "ModelThread.h"
 
 #include "Events/Event.h"
-#include "Events/EventsSniffer.h"
+#include "Events/QueryParser.h"
 #include "Timesheet/Timesheet.h"
 #include "Timesheet/TimesheetBuilder.h"
 
 #include <QDebug>
 #include <QThread>
+#include <windows.h>
+#include <winevt.h>
 
 namespace Model
 {
-	constexpr auto SLEEP_TIME = 5000;
+	constexpr auto SLEEP_TIME = 100;
 
 	// Log queried events informations.
 	void _LogEvents( const TEvents& events_ )
@@ -56,45 +58,74 @@ namespace Model
 								   L"Event/System/TimeCreated[timediff(@SystemTime) <= 604800000]";
 		const std::wstring channel = L"Security";
 
-		EventsSniffer sniffer( channel, query, this );
+		// Init new data subscriber
+		HANDLE newEventHandle = CreateEvent( NULL, false, true, NULL );
+		if ( newEventHandle == NULL )
+		{
+			Q_ASSERT( "CreateEvent failed with " + GetLastError() );
+			qInfo() << "ModelThread stopped...";
+			return;
+		}
 
+		EVT_HANDLE hSubscription = EvtSubscribe(
+			NULL, newEventHandle, channel.c_str(), query.c_str(), NULL, NULL, NULL, EvtSubscribeStartAtOldestRecord );
+		if ( hSubscription == NULL )
+		{
+			DWORD status = GetLastError();
+			if ( status != ERROR_SUCCESS )
+			{
+				Q_ASSERT( "CreateEvent failed with " + status );
+				qInfo() << "ModelThread stopped...";
+				return;
+			}
+		}
+
+		// Init Parser
+		QueryParser parser( this );
+
+		// Init Data
 		TEvents events;
 		TimesheetBuilder timesheetBuilder( this );
 		Timesheet timesheet;
+
+		// Thread loop
+		DWORD dwWait = 0;
 		while ( m_isRunning )
 		{
-			// TODO a thread that polls the API every X seconds is not optimal.
-			// Should have a subscriber instead.
-			qInfo() << "ModelThead tick...";
-
-			// Try to query the windows events API.
 			try
 			{
-				const bool isInError = !sniffer.Sniff( events );
-				if ( isInError )
+				// Wait for a signal, if there is one, we gonna query the API to get the events.
+				dwWait = WaitForSingleObject( newEventHandle, SLEEP_TIME );
+				if ( dwWait != 0 )
+				{
+					continue;
+				}
+				const DWORD isInError = parser.ParseToEvents( hSubscription, events );
+				if ( isInError != ERROR_SUCCESS )
 				{
 					break;
 				}
+				parser.ApplyEventsFilter( QueryParser::EventsFilter::E_CURRENT_WEEK_EVENTS, events );
+
 				_LogEvents( events );
 				timesheetBuilder.Build( events, timesheet );
 				qInfo() << "-------------------------------------------------";
 				_logTimesheet( timesheet );
-				events.clear();
 			}
+
 			catch ( const std::exception& exception )
 			{
 				qCritical() << "An exception occurred: " << exception.what();
 				Q_ASSERT_X( false, "ModelThread", exception.what() );
 				break;
 			}
+
 			catch ( ... )
 			{
 				qCritical() << "An unknown exception occurred";
 				Q_ASSERT_X( false, "ModelThread", "An unknown exception occurred" );
 				break;
 			}
-
-			msleep( SLEEP_TIME );
 		}
 
 		qInfo() << "ModelThread stopped...";

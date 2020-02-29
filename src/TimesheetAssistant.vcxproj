@@ -85,7 +85,6 @@
     <ClCompile Include="View\Components\HelpDialog.cpp" />
     <ClCompile Include="Model\Events\Event.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Model\Events\EventsSniffer.cpp" />
     <ClCompile Include="Model\ModelThread.cpp" />
     <ClCompile Include="Model\Events\QueryParser.cpp" />
     <ClCompile Include="Model\Timesheet\Timesheet.cpp" />
@@ -108,9 +107,6 @@
   <ItemGroup>
     <QtUic Include="View\gui\HelpDialog.ui" />
     <QtUic Include="View\gui\MainWindow.ui" />
-  </ItemGroup>
-  <ItemGroup>
-    <QtMoc Include="Model\Events\EventsSniffer.h" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Model\ModelThread.h" />
