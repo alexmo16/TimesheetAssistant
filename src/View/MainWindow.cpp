@@ -2,19 +2,22 @@
 
 #include "Model/ModelThread.h"
 
+#include <QAction>
 #include <QDebug>
 
 namespace View
 {
 	MainWindow::MainWindow( std::shared_ptr<Model::ModelThread> pModelThread_, QWidget* pParent_ )
-		: QMainWindow( pParent_ ), m_pModelThread( pModelThread_ )
+		: QMainWindow( pParent_ ), m_pModelThread( pModelThread_ ), m_helpDialog( this )
 	{
-		ui.setupUi( this );
+		m_ui.setupUi( this );
 
 		if ( m_pModelThread != nullptr )
 		{
 			m_pModelThread->start();
 		}
+
+		connect( m_ui.actionHelp, &QAction::triggered, [ this ]( const bool checked_ ) { OnHelpAction( checked_ ); } );
 	}
 
 	/**
@@ -25,5 +28,13 @@ namespace View
 		qInfo() << "closing application...";
 		m_pModelThread->stop();
 		m_pModelThread->wait();
+	}
+
+	/*
+	 * @brief Callback when the menu action button is clicked to open help dialog.
+	 */
+	void MainWindow::OnHelpAction( const bool /*checked_*/ )
+	{
+		m_helpDialog.open();
 	}
 } // namespace View

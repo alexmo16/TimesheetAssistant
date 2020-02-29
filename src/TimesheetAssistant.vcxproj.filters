@@ -52,6 +52,9 @@
     <ClCompile Include="Model\Timesheet\WorkDay.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="View\Components\HelpDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="Resources\TimesheetAssistant.qrc">
@@ -93,9 +96,15 @@
     <QtMoc Include="Model\Timesheet\WorkDay.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="View\Components\HelpDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="View\gui\MainWindow.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="View\gui\HelpDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

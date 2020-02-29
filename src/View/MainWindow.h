@@ -2,6 +2,8 @@
 
 #include "ui_MainWindow.h"
 
+#include "Components/HelpDialog.h"
+
 #include <QtWidgets/QMainWindow>
 
 namespace Model
@@ -21,8 +23,12 @@ namespace View
 
 		void MainWindow::closeEvent( QCloseEvent* pEvent_ ) override;
 
+	private slots:
+		void OnHelpAction( const bool checked_ );
+
 	private:
-		Ui::MainWindowClass ui;
+		Ui::MainWindowClass m_ui;
+		HelpDialog m_helpDialog;
 
 		std::shared_ptr<Model::ModelThread> m_pModelThread;
 	};
