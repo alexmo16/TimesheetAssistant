@@ -61,5 +61,5 @@ namespace View
 		}
 	}
 
-	void OnTimesheetUpdated( const Model::Timesheet& timesheet_ ) {}
+	void MainWindow::OnTimesheetUpdated( const Model::Timesheet& timesheet_ ) {}
 } // namespace View
