@@ -9,6 +9,7 @@
 namespace Model
 {
 	class ModelThread;
+	class Timesheet;
 
 } // namespace Model
 
@@ -25,6 +26,7 @@ namespace View
 
 	private slots:
 		void OnHelpAction( const bool checked_ );
+		void OnTimesheetUpdated( const Model::Timesheet& timesheet_ );
 
 	private:
 		void setCurrentWeekLabel();

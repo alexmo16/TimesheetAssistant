@@ -1,6 +1,7 @@
 #include "MainWindow.h"
 
 #include "Model/ModelThread.h"
+#include "Model/Timesheet/Timesheet.h"
 
 #include <QAction>
 #include <QDate>
@@ -16,6 +17,8 @@ namespace View
 		setCurrentWeekLabel();
 
 		connect( m_ui.actionHelp, &QAction::triggered, [ this ]( const bool checked_ ) { OnHelpAction( checked_ ); } );
+		connect( m_pModelThread.get(), &Model::ModelThread::TimesheetUpdated,
+			[ this ]( const Model::Timesheet& timesheet_ ) { OnTimesheetUpdated( timesheet_ ); } );
 
 		if ( m_pModelThread != nullptr )
 		{
@@ -57,4 +60,6 @@ namespace View
 			m_ui.weekLabel->setText( newWeekLabel );
 		}
 	}
+
+	void OnTimesheetUpdated( const Model::Timesheet& timesheet_ ) {}
 } // namespace View

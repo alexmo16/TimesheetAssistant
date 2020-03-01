@@ -13,34 +13,8 @@
 namespace Model
 {
 	constexpr auto SLEEP_TIME = 100;
-
-	// Log queried events informations.
-	void _LogEvents( const TEvents& events_ )
-	{
-		for ( const auto& pEvent : events_ )
-		{
-			if ( pEvent != nullptr )
-			{
-				qInfo() << "Time: " << pEvent->GetDateTime();
-				qInfo() << "Event ID: " << pEvent->GetEventType();
-			}
-		}
-		qInfo() << events_.size();
-	}
-
-	// Log a timesheet workdays
-	void _logTimesheet( const Timesheet& timesheet_ )
-	{
-		const TWorkDays& workDays = timesheet_.GetWorkDays();
-		for ( const auto& pWorkDay : workDays )
-		{
-			if ( pWorkDay == nullptr )
-			{
-				continue;
-			}
-			qInfo() << "WorkedTime: " << pWorkDay->GetWorkTime();
-		}
-	}
+	void _LogEvents( const TEvents& events_ );
+	void _logTimesheet( const Timesheet& timesheet_ );
 
 	ModelThread::ModelThread( QObject* pParent_ ) : QThread( pParent_ )
 	{
@@ -113,6 +87,7 @@ namespace Model
 					timesheetBuilder.Build( events, timesheet );
 					qInfo() << "-------------------------------------------------";
 					_logTimesheet( timesheet );
+					emit TimesheetUpdated( timesheet );
 				}
 			}
 
@@ -137,6 +112,34 @@ namespace Model
 	void ModelThread::stop()
 	{
 		m_isRunning = false;
+	}
+
+	// Log queried events informations.
+	void _LogEvents( const TEvents& events_ )
+	{
+		for ( const auto& pEvent : events_ )
+		{
+			if ( pEvent != nullptr )
+			{
+				qInfo() << "Time: " << pEvent->GetDateTime();
+				qInfo() << "Event ID: " << pEvent->GetEventType();
+			}
+		}
+		qInfo() << events_.size();
+	}
+
+	// Log a timesheet workdays
+	void _logTimesheet( const Timesheet& timesheet_ )
+	{
+		const TWorkDays& workDays = timesheet_.GetWorkDays();
+		for ( const auto& pWorkDay : workDays )
+		{
+			if ( pWorkDay == nullptr )
+			{
+				continue;
+			}
+			qInfo() << "WorkedTime: " << pWorkDay->GetWorkTime();
+		}
 	}
 
 } // namespace Model

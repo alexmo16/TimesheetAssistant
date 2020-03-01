@@ -4,6 +4,8 @@
 
 namespace Model
 {
+	class Timesheet;
+
 	class ModelThread : public QThread
 	{
 		Q_OBJECT
@@ -13,6 +15,9 @@ namespace Model
 
 		void run() override;
 		void stop();
+
+	signals:
+		void TimesheetUpdated( const Timesheet& timesheet_ );
 
 	private:
 		bool m_isRunning = false;
