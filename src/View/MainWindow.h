@@ -27,6 +27,8 @@ namespace View
 		void OnHelpAction( const bool checked_ );
 
 	private:
+		void setCurrentWeekLabel();
+
 		Ui::MainWindowClass m_ui;
 		HelpDialog m_helpDialog;
 

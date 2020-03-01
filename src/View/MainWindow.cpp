@@ -3,6 +3,7 @@
 #include "Model/ModelThread.h"
 
 #include <QAction>
+#include <QDate>
 #include <QDebug>
 
 namespace View
@@ -12,12 +13,14 @@ namespace View
 	{
 		m_ui.setupUi( this );
 
+		setCurrentWeekLabel();
+
+		connect( m_ui.actionHelp, &QAction::triggered, [ this ]( const bool checked_ ) { OnHelpAction( checked_ ); } );
+
 		if ( m_pModelThread != nullptr )
 		{
 			m_pModelThread->start();
 		}
-
-		connect( m_ui.actionHelp, &QAction::triggered, [ this ]( const bool checked_ ) { OnHelpAction( checked_ ); } );
 	}
 
 	/**
@@ -36,5 +39,22 @@ namespace View
 	void MainWindow::OnHelpAction( const bool /*checked_*/ )
 	{
 		m_helpDialog.open();
+	}
+
+	void MainWindow::setCurrentWeekLabel()
+	{
+		const QDate& currentDate = QDate::currentDate();
+		const int currentWeekDay = currentDate.dayOfWeek();
+		const QDate& mondayDate =
+			currentDate.addDays( static_cast<qint64>( -currentWeekDay ) + 1 ); // remove days to get monday
+		const QDate& fridayDate = mondayDate.addDays( 4 );					   // 1 + 4 = 5 = friday
+
+		if ( m_ui.weekLabel != nullptr )
+		{
+			const QString dateFormat = "MMMM d yyyy"; // February 24 2020
+			const QString newWeekLabel =
+				mondayDate.toString( dateFormat ) + " - " + fridayDate.toString( dateFormat ) + ":";
+			m_ui.weekLabel->setText( newWeekLabel );
+		}
 	}
 } // namespace View
