@@ -56,3 +56,4 @@ compile_commands.json
 /.vs/
 /src/View/x64/
 /src/Model/x64/
+/x64/

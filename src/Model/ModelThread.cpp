@@ -107,10 +107,13 @@ namespace Model
 				}
 				parser.ApplyEventsFilter( QueryParser::EventsFilter::E_CURRENT_WEEK_EVENTS, events );
 
-				_LogEvents( events );
-				timesheetBuilder.Build( events, timesheet );
-				qInfo() << "-------------------------------------------------";
-				_logTimesheet( timesheet );
+				if ( !events.empty() )
+				{
+					_LogEvents( events );
+					timesheetBuilder.Build( events, timesheet );
+					qInfo() << "-------------------------------------------------";
+					_logTimesheet( timesheet );
+				}
 			}
 
 			catch ( const std::exception& exception )
