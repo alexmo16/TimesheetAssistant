@@ -4,6 +4,7 @@
 
 #include "Components/HelpDialog.h"
 
+#include <QLineEdit>
 #include <QtWidgets/QMainWindow>
 
 namespace Model
@@ -33,8 +34,8 @@ namespace View
 
 		Ui::MainWindowClass m_ui;
 		HelpDialog m_helpDialog;
-
 		std::shared_ptr<Model::ModelThread> m_pModelThread;
+		std::vector<QLineEdit*> m_workDays;
 	};
 
 } // namespace View

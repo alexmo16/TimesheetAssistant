@@ -15,6 +15,8 @@ namespace View
 		m_ui.setupUi( this );
 
 		setCurrentWeekLabel();
+		std::vector<QLineEdit*> m_workDays = { m_ui.mondayTime, m_ui.tuesdayTime, m_ui.wednesdayTime, m_ui.thursdayTime,
+			m_ui.fridayTime };
 
 		connect( m_ui.actionHelp, &QAction::triggered, [ this ]( const bool checked_ ) { OnHelpAction( checked_ ); } );
 		connect( m_pModelThread.get(), &Model::ModelThread::TimesheetUpdated,
@@ -61,5 +63,17 @@ namespace View
 		}
 	}
 
-	void MainWindow::OnTimesheetUpdated( const Model::Timesheet& timesheet_ ) {}
+	void MainWindow::OnTimesheetUpdated( const Model::Timesheet& timesheet_ )
+	{
+
+		for ( const auto& pWorkDay : timesheet_.GetWorkDays() )
+		{
+			if ( pWorkDay != nullptr )
+			{
+				QLineEdit* pWorkDayLineEdit =
+					m_workDays.at( static_cast<size_t>( pWorkDay->GetDate().dayOfWeek() ) - 1 );
+				pWorkDayLineEdit->setText( pWorkDay->GetWorkTime().toString( "H'h' mm'm'" ) );
+			}
+		}
+	}
 } // namespace View
