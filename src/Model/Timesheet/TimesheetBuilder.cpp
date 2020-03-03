@@ -23,7 +23,6 @@ namespace Model
 
 		QDateTime firstTime;
 		QDateTime lastTime;
-		std::shared_ptr<WorkDay> workDay;
 		for ( const auto& pEvent : events_ )
 		{
 			if ( pEvent == nullptr )
@@ -38,7 +37,8 @@ namespace Model
 			{
 				if ( !firstTime.isNull() && !lastTime.isNull() )
 				{
-					workDay = std::make_shared<WorkDay>( date, &timesheet_ );
+					QSharedPointer<WorkDay> workDay =
+						QSharedPointer<WorkDay>( new WorkDay( currentDate, &timesheet_ ) );
 					const auto ms = lastTime.toMSecsSinceEpoch() - firstTime.toMSecsSinceEpoch();
 					QTime workedTime = QTime::fromMSecsSinceStartOfDay( ms );
 					workDay->SetWorkTime( workedTime );
@@ -63,7 +63,8 @@ namespace Model
 			{
 				if ( !firstTime.isNull() && !lastTime.isNull() )
 				{
-					workDay = std::make_shared<WorkDay>( date, &timesheet_ );
+					QSharedPointer<WorkDay> workDay =
+						QSharedPointer<WorkDay>( new WorkDay( currentDate, &timesheet_ ) );
 					const auto ms = lastTime.toMSecsSinceEpoch() - firstTime.toMSecsSinceEpoch();
 					QTime workedTime = QTime::fromMSecsSinceStartOfDay( ms );
 					workDay->SetWorkTime( workedTime );

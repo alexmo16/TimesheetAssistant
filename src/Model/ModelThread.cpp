@@ -60,7 +60,7 @@ namespace Model
 		// Init Data
 		TEvents events;
 		TimesheetBuilder timesheetBuilder( this );
-		Timesheet timesheet;
+		QSharedPointer<Timesheet> timesheet = QSharedPointer<Timesheet>( new Timesheet( this ) );
 
 		// Thread loop
 		DWORD dwWait = 0;
@@ -81,12 +81,12 @@ namespace Model
 				}
 				parser.ApplyEventsFilter( QueryParser::EventsFilter::E_CURRENT_WEEK_EVENTS, events );
 
-				if ( !events.empty() )
+				if ( !events.empty() && events.size() >= 2 )
 				{
 					_LogEvents( events );
-					timesheetBuilder.Build( events, timesheet );
+					timesheetBuilder.Build( events, *timesheet );
 					qInfo() << "-------------------------------------------------";
-					_logTimesheet( timesheet );
+					_logTimesheet( *timesheet );
 					emit TimesheetUpdated( timesheet );
 				}
 			}
