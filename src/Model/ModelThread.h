@@ -1,11 +1,11 @@
 #pragma once
 
+#include "Timesheet/Timesheet.h"
+
 #include <QThread>
 
 namespace Model
 {
-	class Timesheet;
-
 	class ModelThread : public QThread
 	{
 		Q_OBJECT

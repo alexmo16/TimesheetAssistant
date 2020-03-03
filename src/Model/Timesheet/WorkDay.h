@@ -2,8 +2,10 @@
 
 #include <QDate>
 #include <QObject>
+#include <QSharedPointer>
 #include <QString>
 #include <QTime>
+#include <QVector>
 
 namespace Model
 {
@@ -27,5 +29,6 @@ namespace Model
 		QDate m_date;
 	};
 
-	typedef std::vector<std::shared_ptr<WorkDay>> TWorkDays;
+	typedef QVector<QSharedPointer<WorkDay>> TWorkDays;
+	Q_DECLARE_METATYPE( TWorkDays );
 } // namespace Model
