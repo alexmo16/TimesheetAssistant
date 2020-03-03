@@ -2,6 +2,7 @@
 
 #include "Model/ModelThread.h"
 #include "Model/Timesheet/Timesheet.h"
+#include "Model/Timesheet/WorkDay.h"
 
 #include <QAction>
 #include <QDate>
@@ -15,12 +16,11 @@ namespace View
 		m_ui.setupUi( this );
 
 		setCurrentWeekLabel();
-		std::vector<QLineEdit*> m_workDays = { m_ui.mondayTime, m_ui.tuesdayTime, m_ui.wednesdayTime, m_ui.thursdayTime,
-			m_ui.fridayTime };
+		m_workDays = { m_ui.mondayTime, m_ui.tuesdayTime, m_ui.wednesdayTime, m_ui.thursdayTime, m_ui.fridayTime };
 
 		connect( m_ui.actionHelp, &QAction::triggered, [ this ]( const bool checked_ ) { OnHelpAction( checked_ ); } );
 		connect( m_pModelThread.get(), &Model::ModelThread::TimesheetUpdated,
-			[ this ]( const Model::Timesheet& timesheet_ ) { OnTimesheetUpdated( timesheet_ ); } );
+			[ this ]( const QSharedPointer<Model::Timesheet>& timesheet_ ) { OnTimesheetUpdated( *timesheet_ ); } );
 
 		if ( m_pModelThread != nullptr )
 		{
@@ -50,29 +50,41 @@ namespace View
 	{
 		const QDate& currentDate = QDate::currentDate();
 		const int currentWeekDay = currentDate.dayOfWeek();
-		const QDate& mondayDate =
-			currentDate.addDays( static_cast<qint64>( -currentWeekDay ) + 1 ); // remove days to get monday
-		const QDate& fridayDate = mondayDate.addDays( 4 );					   // 1 + 4 = 5 = friday
+		m_mondayDate = currentDate.addDays( static_cast<qint64>( -currentWeekDay ) + 1 ); // remove days to get monday
+		m_fridayDate = m_mondayDate.addDays( 4 );										  // 1 + 4 = 5 = friday
 
 		if ( m_ui.weekLabel != nullptr )
 		{
 			const QString dateFormat = "MMMM d yyyy"; // February 24 2020
 			const QString newWeekLabel =
-				mondayDate.toString( dateFormat ) + " - " + fridayDate.toString( dateFormat ) + ":";
+				m_mondayDate.toString( dateFormat ) + " - " + m_fridayDate.toString( dateFormat ) + ":";
 			m_ui.weekLabel->setText( newWeekLabel );
 		}
 	}
 
 	void MainWindow::OnTimesheetUpdated( const Model::Timesheet& timesheet_ )
 	{
-
-		for ( const auto& pWorkDay : timesheet_.GetWorkDays() )
+		if ( m_workDays.empty() )
 		{
-			if ( pWorkDay != nullptr )
+			return;
+		}
+
+		const Model::TWorkDays& workDays = timesheet_.GetWorkDays();
+		for ( const auto& pWorkDay : workDays )
+		{
+			if ( pWorkDay == nullptr )
 			{
-				QLineEdit* pWorkDayLineEdit =
-					m_workDays.at( static_cast<size_t>( pWorkDay->GetDate().dayOfWeek() ) - 1 );
-				pWorkDayLineEdit->setText( pWorkDay->GetWorkTime().toString( "H'h' mm'm'" ) );
+				continue;
+			}
+			const QDate& date = pWorkDay->GetDate();
+			if ( date < m_mondayDate )
+			{
+				continue;
+			}
+			QLineEdit* pWorkDayLineEdit = m_workDays.at( static_cast<size_t>( date.dayOfWeek() - 1 ) );
+			if ( pWorkDayLineEdit != nullptr )
+			{
+				pWorkDayLineEdit->setText( pWorkDay->GetWorkTime().toString( "H'h'mm" ) );
 			}
 		}
 	}

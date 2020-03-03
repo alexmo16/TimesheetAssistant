@@ -1,7 +1,9 @@
 #pragma once
+#pragma once
 
 #include "Timesheet/Timesheet.h"
 
+#include <QSharedPointer>
 #include <QThread>
 
 namespace Model
@@ -17,7 +19,7 @@ namespace Model
 		void stop();
 
 	signals:
-		void TimesheetUpdated( const Timesheet& timesheet_ );
+		void TimesheetUpdated( const QSharedPointer<Timesheet>& timesheet_ );
 
 	private:
 		bool m_isRunning = false;
