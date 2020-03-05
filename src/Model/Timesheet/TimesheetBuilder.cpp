@@ -30,8 +30,8 @@ namespace Model
 				continue;
 			}
 
-			const QDateTime& dateTime = pEvent->GetDateTime();
-			const QDate& date = dateTime.date();
+			const QDateTime& eventDateTime = pEvent->GetDateTime();
+			const QDate& eventDate = eventDateTime.date();
 
 			if ( pEvent == events_.back() )
 			{
@@ -52,11 +52,11 @@ namespace Model
 				break;
 			}
 
-			if ( currentDate == date )
+			if ( currentDate == eventDate )
 			{
 				if ( pEvent->GetEventType() == Event::EventType::E_LOCKED )
 				{
-					lastTime = dateTime;
+					lastTime = eventDateTime;
 				}
 			}
 			else if ( pEvent->GetEventType() == Event::EventType::E_UNLOCKED )
@@ -76,8 +76,8 @@ namespace Model
 					return;
 				}
 
-				currentDate = date;
-				firstTime = dateTime;
+				currentDate = eventDate;
+				firstTime = eventDateTime;
 				lastTime = QDateTime();
 			}
 		}
