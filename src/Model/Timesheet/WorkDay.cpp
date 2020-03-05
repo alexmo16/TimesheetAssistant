@@ -5,7 +5,10 @@
 
 namespace Model
 {
-	WorkDay::WorkDay( const QDate& date_, QObject* pParent_ /*= Q_NULLPTR*/ ) : QObject( pParent_ ), m_date( date_ ) {}
+	WorkDay::WorkDay( const QDate& date_, QObject* pParent_ /*= Q_NULLPTR*/ )
+		: QObject( pParent_ ), m_date( date_ ), m_workedTime( QTime( 0, 0 ) )
+	{
+	}
 
 	QTime WorkDay::GetWorkTime()
 	{
@@ -24,6 +27,11 @@ namespace Model
 		{
 			m_workedTime.fromString( workTime_, format_ );
 		}
+	}
+
+	void WorkDay::AddWorkTime( const QTime& workTime_ )
+	{
+		m_workedTime = m_workedTime.addMSecs( workTime_.msecsSinceStartOfDay() );
 	}
 
 } // namespace Model

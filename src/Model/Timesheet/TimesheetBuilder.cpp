@@ -5,6 +5,7 @@
 
 #include <QDate>
 #include <QDebug>
+#include <QSharedPointer>
 
 namespace Model
 {
@@ -19,10 +20,11 @@ namespace Model
 		}
 
 		TWorkDays workDays;
-		QDate currentDate;
+		QDate currentDate; // current date the algo is processing
 
 		QDateTime firstTime;
 		QDateTime lastTime;
+		QSharedPointer<WorkDay> workDay;
 		for ( const auto& pEvent : events_ )
 		{
 			if ( pEvent == nullptr )
@@ -30,55 +32,54 @@ namespace Model
 				continue;
 			}
 
-			const QDateTime& eventDateTime = pEvent->GetDateTime();
-			const QDate& eventDate = eventDateTime.date();
+			const QDateTime& eventTime = pEvent->GetDateTime();
+			const QDate& eventDate = eventTime.date();
+			const Event::EventType eventType = pEvent->GetEventType();
 
 			if ( pEvent == events_.back() )
 			{
-				if ( !firstTime.isNull() && !lastTime.isNull() )
+				if ( eventType == Event::EventType::E_LOCKED && !firstTime.isNull() && !lastTime.isNull() )
 				{
-					QSharedPointer<WorkDay> workDay =
-						QSharedPointer<WorkDay>( new WorkDay( currentDate, &timesheet_ ) );
+					lastTime = eventTime;
 					const auto ms = lastTime.toMSecsSinceEpoch() - firstTime.toMSecsSinceEpoch();
 					QTime workedTime = QTime::fromMSecsSinceStartOfDay( ms );
-					workDay->SetWorkTime( workedTime );
-					workDays.push_back( workDay );
+					workDay->AddWorkTime( workedTime );
 				}
-				else if ( !firstTime.isNull() && lastTime.isNull() )
+				if ( !workDay.isNull() )
 				{
-					Q_ASSERT( false );
-					return;
+					workDays.push_back( workDay );
 				}
 				break;
 			}
 
 			if ( currentDate == eventDate )
 			{
-				if ( pEvent->GetEventType() == Event::EventType::E_LOCKED )
+				if ( eventType == Event::EventType::E_LOCKED )
 				{
-					lastTime = eventDateTime;
+					lastTime = eventTime;
+					const auto ms = lastTime.toMSecsSinceEpoch() - firstTime.toMSecsSinceEpoch();
+					QTime workedTime = QTime::fromMSecsSinceStartOfDay( ms );
+					workDay->AddWorkTime( workedTime );
+				}
+				else if ( eventType == Event::EventType::E_UNLOCKED )
+				{
+					firstTime = eventTime;
+					lastTime = QDateTime();
 				}
 			}
 			else if ( pEvent->GetEventType() == Event::EventType::E_UNLOCKED )
 			{
-				if ( !firstTime.isNull() && !lastTime.isNull() )
+				if ( !workDay.isNull() )
 				{
-					QSharedPointer<WorkDay> workDay =
-						QSharedPointer<WorkDay>( new WorkDay( currentDate, &timesheet_ ) );
-					const auto ms = lastTime.toMSecsSinceEpoch() - firstTime.toMSecsSinceEpoch();
-					QTime workedTime = QTime::fromMSecsSinceStartOfDay( ms );
-					workDay->SetWorkTime( workedTime );
 					workDays.push_back( workDay );
-				}
-				else if ( !firstTime.isNull() && lastTime.isNull() )
-				{
-					Q_ASSERT( false );
-					return;
+					qInfo() << workDay->GetWorkTime();
 				}
 
 				currentDate = eventDate;
-				firstTime = eventDateTime;
+				qInfo() << currentDate;
+				firstTime = eventTime;
 				lastTime = QDateTime();
+				workDay = QSharedPointer<WorkDay>( new WorkDay( currentDate, &timesheet_ ) );
 			}
 		}
 
