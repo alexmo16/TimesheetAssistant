@@ -34,11 +34,10 @@ namespace Model
 
 			const QDateTime& eventTime = pEvent->GetDateTime();
 			const QDate& eventDate = eventTime.date();
-			const Event::EventType eventType = pEvent->GetEventType();
 
 			if ( pEvent == events_.back() )
 			{
-				if ( eventType == Event::EventType::E_LOCKED && !firstTime.isNull() && !lastTime.isNull() )
+				if ( pEvent->IsLogoutEvent() && !firstTime.isNull() && !lastTime.isNull() )
 				{
 					lastTime = eventTime;
 					const auto ms = lastTime.toMSecsSinceEpoch() - firstTime.toMSecsSinceEpoch();
@@ -48,35 +47,35 @@ namespace Model
 				if ( !workDay.isNull() )
 				{
 					workDays.push_back( workDay );
+					workDay.clear();
 				}
 				break;
 			}
 
 			if ( currentDate == eventDate )
 			{
-				if ( eventType == Event::EventType::E_LOCKED )
+				if ( pEvent->IsLogoutEvent() )
 				{
 					lastTime = eventTime;
 					const auto ms = lastTime.toMSecsSinceEpoch() - firstTime.toMSecsSinceEpoch();
 					QTime workedTime = QTime::fromMSecsSinceStartOfDay( ms );
 					workDay->AddWorkTime( workedTime );
 				}
-				else if ( eventType == Event::EventType::E_UNLOCKED )
+				else if ( pEvent->IsLoginEvent() )
 				{
 					firstTime = eventTime;
 					lastTime = QDateTime();
 				}
 			}
-			else if ( pEvent->GetEventType() == Event::EventType::E_UNLOCKED )
+			else if ( pEvent->IsLoginEvent() )
 			{
 				if ( !workDay.isNull() )
 				{
 					workDays.push_back( workDay );
-					qInfo() << workDay->GetWorkTime();
+					workDay.clear();
 				}
 
 				currentDate = eventDate;
-				qInfo() << currentDate;
 				firstTime = eventTime;
 				lastTime = QDateTime();
 				workDay = QSharedPointer<WorkDay>( new WorkDay( currentDate, &timesheet_ ) );

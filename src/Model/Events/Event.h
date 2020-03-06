@@ -15,6 +15,8 @@ namespace Model
 	public:
 		enum class EventType
 		{
+			E_LOGOFF = 4647,
+			E_LOGON = 4624,
 			E_LOCKED = 4800,   // Real Windows id  for lock event
 			E_UNLOCKED = 4801, // Real Windows id for unlock event
 			E_NONE = -1
@@ -35,6 +37,9 @@ namespace Model
 		}
 
 		void SetInfoFromXml( const QString& xmlEvent_ );
+
+		bool IsLogoutEvent() const;
+		bool IsLoginEvent() const;
 
 	private:
 		QDateTime m_dateTime;

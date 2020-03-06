@@ -42,4 +42,14 @@ namespace Model
 		}
 	}
 
+	bool Event::IsLoginEvent() const
+	{
+		return m_type == EventType::E_LOGON || m_type == EventType::E_UNLOCKED;
+	}
+
+	bool Event::IsLogoutEvent() const
+	{
+		return m_type == EventType::E_LOCKED || m_type == EventType::E_LOGOFF;
+	}
+
 } // namespace Model
