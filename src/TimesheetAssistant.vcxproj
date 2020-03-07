@@ -38,6 +38,12 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <CustomBuildBeforeTargets>Qt</CustomBuildBeforeTargets>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <CustomBuildBeforeTargets>Qt</CustomBuildBeforeTargets>
+  </PropertyGroup>
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt_defaults.props')">
     <Import Project="$(QtMsBuild)\qt_defaults.props" />
   </ImportGroup>
@@ -66,6 +72,18 @@
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <CustomBuildStep>
+      <Command>"$(QTDIR)\bin\rcc.exe" -binary ".\Resources\TimesheetAssistant.qrc" -o ".\GeneratedFiles\TimesheetAssistant.rcc"</Command>
+    </CustomBuildStep>
+    <CustomBuildStep>
+      <Message>Building RCC file</Message>
+    </CustomBuildStep>
+    <CustomBuildStep>
+      <Outputs>\GeneratedFiles\TimesheetAssistant.rcc</Outputs>
+    </CustomBuildStep>
+    <CustomBuildStep>
+      <Inputs>.\Resources\TimesheetAssistant.qrc</Inputs>
+    </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -79,7 +97,14 @@
       <SubSystem>Windows</SubSystem>
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
       <GenerateDebugInformation>false</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(Qt_LIBPATH_);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <CustomBuildStep>
+      <Command>"$(QTDIR)\bin\rcc.exe" -binary ".\Resources\TimesheetAssistant.qrc" -o ".\GeneratedFiles\TimesheetAssistant.rcc"</Command>
+      <Outputs>.\GeneratedFiles\TimesheetAssistant.rcc</Outputs>
+      <Inputs>.\Resources\TimesheetAssistant.qrc</Inputs>
+      <Message>Building RCC file</Message>
+    </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="View\Components\HelpDialog.cpp" />
@@ -96,9 +121,7 @@
     <CustomBuild Include="Resources\TimesheetAssistant.qrc" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Resources\TimesheetAssistant.rc" />
-  </ItemGroup>
-  <ItemGroup>
+    <Image Include="Resources\refresh.png" />
     <Image Include="Resources\TimesheetAssistant.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -114,6 +137,7 @@
   <ItemGroup>
     <None Include="..\.clang-format" />
     <None Include="..\README.md" />
+    <None Include="Resources\TimesheetAssistant.aps" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Model\Events\Event.h" />
@@ -133,6 +157,9 @@
   <ItemGroup>
     <QtMoc Include="View\Components\HelpDialog.h" />
     <ClInclude Include="Model\Utils\NotImplemented.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resources\TimesheetAssistant.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

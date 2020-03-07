@@ -58,3 +58,4 @@ compile_commands.json
 /src/Model/x64/
 /x64/
 *.vcxproj.user
+/src/GeneratedFiles
