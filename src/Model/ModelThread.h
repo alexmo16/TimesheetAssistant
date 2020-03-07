@@ -14,6 +14,7 @@ namespace Model
 
 	public:
 		ModelThread( QObject* pParent_ = Q_NULLPTR );
+		~ModelThread() = default;
 
 		void run() override;
 		void stop();

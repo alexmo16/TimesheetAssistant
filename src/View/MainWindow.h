@@ -6,6 +6,7 @@
 
 #include <QDate>
 #include <QLineEdit>
+#include <QTimer>
 #include <QtWidgets/QMainWindow>
 
 namespace Model
@@ -23,15 +24,18 @@ namespace View
 
 	public:
 		MainWindow( std::shared_ptr<Model::ModelThread> pModelThread_, QWidget* pParent_ = Q_NULLPTR );
+		~MainWindow() = default;
 
-		void MainWindow::closeEvent( QCloseEvent* pEvent_ ) override;
+	protected:
+		void closeEvent( QCloseEvent* pEvent_ ) override;
 
 	private slots:
 		void OnHelpAction( const bool checked_ );
 		void OnTimesheetUpdated( const Model::Timesheet& timesheet_ );
+		void OnTimerCallback();
 
 	private:
-		void setCurrentWeekLabel();
+		void SetCurrentWeekLabel();
 
 		Ui::MainWindowClass m_ui;
 		HelpDialog m_helpDialog;
@@ -39,6 +43,7 @@ namespace View
 		std::vector<QLineEdit*> m_workDays;
 		QDate m_mondayDate;
 		QDate m_fridayDate;
+		QTimer m_currentDayTimer;
 	};
 
 } // namespace View

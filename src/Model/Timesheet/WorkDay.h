@@ -15,6 +15,7 @@ namespace Model
 
 	public:
 		WorkDay( const QDate& date_, QObject* pParent_ = Q_NULLPTR );
+		~WorkDay() = default;
 
 		QTime GetWorkTime();
 		void SetWorkTime( const QTime& workTime_ );

@@ -7,6 +7,9 @@
 #include <QAction>
 #include <QDate>
 #include <QDebug>
+#include <QTimer>
+
+constexpr auto ONE_MINUTE_MS = 60 * 1000;
 
 namespace View
 {
@@ -15,16 +18,29 @@ namespace View
 	{
 		m_ui.setupUi( this );
 
-		setCurrentWeekLabel();
+		SetCurrentWeekLabel();
 		m_workDays = { m_ui.mondayTime, m_ui.tuesdayTime, m_ui.wednesdayTime, m_ui.thursdayTime, m_ui.fridayTime };
+		m_currentDayTimer.start( ONE_MINUTE_MS );
 
 		connect( m_ui.actionHelp, &QAction::triggered, [ this ]( const bool checked_ ) { OnHelpAction( checked_ ); } );
 		connect( m_pModelThread.get(), &Model::ModelThread::TimesheetUpdated,
 			[ this ]( const QSharedPointer<Model::Timesheet>& timesheet_ ) { OnTimesheetUpdated( *timesheet_ ); } );
+		connect( &m_currentDayTimer, &QTimer::timeout, [ this ] { OnTimerCallback(); } );
 
 		if ( m_pModelThread != nullptr )
 		{
 			m_pModelThread->start();
+		}
+	}
+
+	void MainWindow::OnTimerCallback()
+	{
+		QLineEdit* pWorkDayLineEdit = m_workDays.at( static_cast<size_t>( QDate::currentDate().dayOfWeek() ) - 1 );
+		if ( pWorkDayLineEdit != nullptr )
+		{
+			const QTime& workedTime = QTime::fromString( pWorkDayLineEdit->text(), "H'h'mm" );
+			const QTime& totalWorkedTime = workedTime.addMSecs( ONE_MINUTE_MS );
+			pWorkDayLineEdit->setText( totalWorkedTime.toString( "H'h'mm" ) );
 		}
 	}
 
@@ -46,7 +62,7 @@ namespace View
 		m_helpDialog.open();
 	}
 
-	void MainWindow::setCurrentWeekLabel()
+	void MainWindow::SetCurrentWeekLabel()
 	{
 		const QDate& currentDate = QDate::currentDate();
 		const int currentWeekDay = currentDate.dayOfWeek();
@@ -81,7 +97,7 @@ namespace View
 			{
 				continue;
 			}
-			QLineEdit* pWorkDayLineEdit = m_workDays.at( static_cast<size_t>( date.dayOfWeek() - 1 ) );
+			QLineEdit* pWorkDayLineEdit = m_workDays.at( static_cast<size_t>( date.dayOfWeek() ) - 1 );
 			if ( pWorkDayLineEdit != nullptr )
 			{
 				pWorkDayLineEdit->setText( pWorkDay->GetWorkTime().toString( "H'h'mm" ) );

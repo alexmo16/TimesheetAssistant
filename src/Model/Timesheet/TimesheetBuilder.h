@@ -14,6 +14,7 @@ namespace Model
 
 	public:
 		TimesheetBuilder( QObject* pParent_ = Q_NULLPTR );
+		~TimesheetBuilder() = default;
 
 		void Build( const TEvents& events_, Timesheet& timesheet_ );
 	};

@@ -15,6 +15,7 @@ namespace Model
 	public:
 		Timesheet( QObject* pParent_ = Q_NULLPTR );
 		Timesheet( TWorkDays workDays_, QObject* pParent_ = Q_NULLPTR );
+		~Timesheet() = default;
 
 		const TWorkDays GetWorkDays() const;
 		void SetWorkDays( TWorkDays workDays_ );

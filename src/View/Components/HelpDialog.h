@@ -13,6 +13,7 @@ namespace View
 
 	public:
 		HelpDialog( QWidget* pParent_ = Q_NULLPTR );
+		~HelpDialog() = default;
 
 	private:
 		Ui::HelpDialog m_ui;
