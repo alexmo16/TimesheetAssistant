@@ -35,10 +35,25 @@ namespace View
 
 	void MainWindow::OnTimerCallback()
 	{
-		QLineEdit* pWorkDayLineEdit = m_workDays.at( static_cast<size_t>( QDate::currentDate().dayOfWeek() ) - 1 );
-		if ( pWorkDayLineEdit != nullptr )
+		if ( m_workDays.empty() )
 		{
-			const QTime& workedTime = QTime::fromString( pWorkDayLineEdit->text(), "H'h'mm" );
+			return;
+		}
+
+		const size_t index = static_cast<size_t>( QDate::currentDate().dayOfWeek() ) - 1;
+		if ( index < 0 || index >= m_workDays.size() )
+		{
+			return;
+		}
+		QLineEdit* pWorkDayLineEdit = m_workDays.at( index );
+		if ( pWorkDayLineEdit == nullptr )
+		{
+			return;
+		}
+		const QString& currentString = pWorkDayLineEdit->text();
+		if ( !currentString.isNull() && !currentString.isEmpty() )
+		{
+			const QTime& workedTime = QTime::fromString( currentString, "H'h'mm" );
 			const QTime& totalWorkedTime = workedTime.addMSecs( ONE_MINUTE_MS );
 			pWorkDayLineEdit->setText( totalWorkedTime.toString( "H'h'mm" ) );
 		}
