@@ -22,6 +22,8 @@ namespace View
 
 		SetCurrentWeekLabel();
 		m_workDays = { m_ui.mondayTime, m_ui.tuesdayTime, m_ui.wednesdayTime, m_ui.thursdayTime, m_ui.fridayTime };
+		m_workDaysStrings = { m_ui.mondayTime->text(), m_ui.tuesdayTime->text(), m_ui.wednesdayTime->text(),
+			m_ui.thursdayTime->text(), m_ui.fridayTime->text() };
 
 		connect( m_ui.actionHelp, &QAction::triggered, [ this ]( const bool checked_ ) { OnHelpAction( checked_ ); } );
 		connect( m_pModelThread.get(), &Model::ModelThread::TimesheetUpdated,
@@ -31,6 +33,21 @@ namespace View
 		if ( m_pModelThread != nullptr )
 		{
 			m_pModelThread->start();
+		}
+	}
+
+	void MainWindow::paintEvent( QPaintEvent* /*pEvent_*/ )
+	{
+		int index = -1;
+		for ( auto* pWorkDayLineEdit : m_workDays )
+		{
+			++index;
+			if ( pWorkDayLineEdit == nullptr )
+			{
+				continue;
+			}
+
+			pWorkDayLineEdit->setText( m_workDaysStrings.at( index ) );
 		}
 	}
 
@@ -110,18 +127,16 @@ namespace View
 			{
 				continue;
 			}
-			QLineEdit* pWorkDayLineEdit = m_workDays.at( static_cast<size_t>( date.dayOfWeek() ) - 1 );
-			if ( pWorkDayLineEdit != nullptr )
-			{
-				pWorkDayLineEdit->setText( pWorkDay->GetWorkTime().toString( "H'h'mm" ) );
+			const QString& timeStr = pWorkDay->GetWorkTime().toString( "H'h'mm" );
+			m_workDaysStrings[ date.dayOfWeek() - 1 ] = timeStr;
 
-				if ( date == QDate::currentDate() )
-				{
-					m_currentDayTotalTime = QTime::fromString( pWorkDayLineEdit->text(), "H'h'mm" );
-					m_currentDayTimer.start();
-				}
+			if ( date == QDate::currentDate() )
+			{
+				m_currentDayTotalTime = QTime::fromString( timeStr, "H'h'mm" );
+				m_currentDayTimer.start();
 			}
 		}
+		update();
 	}
 
 	void MainWindow::ClearCurrentDay()
