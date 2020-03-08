@@ -140,5 +140,4 @@ namespace Model
 			qInfo() << "WorkedTime: " << pWorkDay->GetWorkTime();
 		}
 	}
-
 } // namespace Model

@@ -1,6 +1,7 @@
 #pragma once
 #pragma once
 
+#include "Events/Event.h"
 #include "Timesheet/Timesheet.h"
 
 #include <QSharedPointer>

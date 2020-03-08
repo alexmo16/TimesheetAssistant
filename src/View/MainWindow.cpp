@@ -1,5 +1,6 @@
 #include "MainWindow.h"
 
+#include "Model/Events/Event.h"
 #include "Model/ModelThread.h"
 #include "Model/Timesheet/Timesheet.h"
 #include "Model/Timesheet/WorkDay.h"
@@ -14,18 +15,18 @@ constexpr auto ONE_MINUTE_MS = 60 * 1000;
 namespace View
 {
 	MainWindow::MainWindow( std::shared_ptr<Model::ModelThread> pModelThread_, QWidget* pParent_ )
-		: QMainWindow( pParent_ ), m_pModelThread( pModelThread_ ), m_helpDialog( this )
+		: QMainWindow( pParent_ ), m_pModelThread( pModelThread_ ), m_helpDialog( this ),
+		  m_currentDayTotalTime( QTime( 0, 0 ) )
 	{
 		m_ui.setupUi( this );
 
 		SetCurrentWeekLabel();
 		m_workDays = { m_ui.mondayTime, m_ui.tuesdayTime, m_ui.wednesdayTime, m_ui.thursdayTime, m_ui.fridayTime };
-		m_currentDayTimer.start( ONE_MINUTE_MS );
 
 		connect( m_ui.actionHelp, &QAction::triggered, [ this ]( const bool checked_ ) { OnHelpAction( checked_ ); } );
 		connect( m_pModelThread.get(), &Model::ModelThread::TimesheetUpdated,
 			[ this ]( const QSharedPointer<Model::Timesheet>& timesheet_ ) { OnTimesheetUpdated( *timesheet_ ); } );
-		connect( &m_currentDayTimer, &QTimer::timeout, [ this ] { OnTimerCallback(); } );
+		connect( m_ui.actionRefresh, &QAction::triggered, [ this ]( const bool /*checked_*/ ) { OnRefreshClicked(); } );
 
 		if ( m_pModelThread != nullptr )
 		{
@@ -33,7 +34,7 @@ namespace View
 		}
 	}
 
-	void MainWindow::OnTimerCallback()
+	void MainWindow::OnRefreshClicked()
 	{
 		if ( m_workDays.empty() )
 		{
@@ -50,13 +51,10 @@ namespace View
 		{
 			return;
 		}
-		const QString& currentString = pWorkDayLineEdit->text();
-		if ( !currentString.isNull() && !currentString.isEmpty() )
-		{
-			const QTime& workedTime = QTime::fromString( currentString, "H'h'mm" );
-			const QTime& totalWorkedTime = workedTime.addMSecs( ONE_MINUTE_MS );
-			pWorkDayLineEdit->setText( totalWorkedTime.toString( "H'h'mm" ) );
-		}
+
+		m_currentDayTotalTime = m_currentDayTotalTime.addMSecs( m_currentDayTimer.elapsed() );
+		m_currentDayTimer.restart();
+		pWorkDayLineEdit->setText( m_currentDayTotalTime.toString( "H'h'mm" ) );
 	}
 
 	/**
@@ -86,7 +84,7 @@ namespace View
 
 		if ( m_ui.weekLabel != nullptr )
 		{
-			const QString dateFormat = "MMMM d yyyy"; // February 24 2020
+			const QString dateFormat = "MMMM d yyyy"; // example: February 24 2020
 			const QString newWeekLabel =
 				m_mondayDate.toString( dateFormat ) + " - " + m_fridayDate.toString( dateFormat ) + ":";
 			m_ui.weekLabel->setText( newWeekLabel );
@@ -116,7 +114,20 @@ namespace View
 			if ( pWorkDayLineEdit != nullptr )
 			{
 				pWorkDayLineEdit->setText( pWorkDay->GetWorkTime().toString( "H'h'mm" ) );
+
+				if ( date == QDate::currentDate() )
+				{
+					m_currentDayTotalTime = QTime::fromString( pWorkDayLineEdit->text(), "H'h'mm" );
+					m_currentDayTimer.start();
+				}
 			}
 		}
 	}
+
+	void MainWindow::ClearCurrentDay()
+	{
+		m_currentDayTotalTime = QTime( 0, 0 );
+		m_currentDayTimer.start();
+	}
+
 } // namespace View

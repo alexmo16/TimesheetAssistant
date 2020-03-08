@@ -1,7 +1,6 @@
 #include "Model/ModelThread.h"
 #include "View/MainWindow.h"
 
-#include <QDebug>
 #include <QResource>
 #include <QtWidgets/QApplication>
 #pragma comment( lib, "wevtapi.lib" )
