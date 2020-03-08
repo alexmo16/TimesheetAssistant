@@ -42,7 +42,6 @@ namespace View
 
 	private:
 		void SetCurrentWeekLabel();
-		void ClearCurrentDay();
 
 		Ui::MainWindowClass m_ui;
 		HelpDialog m_helpDialog;

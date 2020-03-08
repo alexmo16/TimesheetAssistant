@@ -138,11 +138,4 @@ namespace View
 		}
 		update();
 	}
-
-	void MainWindow::ClearCurrentDay()
-	{
-		m_currentDayTotalTime = QTime( 0, 0 );
-		m_currentDayTimer.start();
-	}
-
 } // namespace View
