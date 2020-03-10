@@ -10,8 +10,6 @@
 #include <QDebug>
 #include <QTimer>
 
-constexpr auto ONE_MINUTE_MS = 60 * 1000;
-
 namespace View
 {
 	MainWindow::MainWindow( std::shared_ptr<Model::ModelThread> pModelThread_, QWidget* pParent_ )
