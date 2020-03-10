@@ -107,6 +107,7 @@
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="View\Components\AboutDialog.cpp" />
     <ClCompile Include="View\Components\HelpDialog.cpp" />
     <ClCompile Include="Model\Events\Event.cpp" />
     <ClCompile Include="main.cpp" />
@@ -128,6 +129,7 @@
     <QtMoc Include="View\MainWindow.h" />
   </ItemGroup>
   <ItemGroup>
+    <QtUic Include="View\gui\AboutDialog.ui" />
     <QtUic Include="View\gui\HelpDialog.ui" />
     <QtUic Include="View\gui\MainWindow.ui" />
   </ItemGroup>
@@ -156,6 +158,7 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="View\Components\HelpDialog.h" />
+    <QtMoc Include="View\Components\AboutDialog.h" />
     <ClInclude Include="Model\Utils\NotImplemented.h" />
   </ItemGroup>
   <ItemGroup>

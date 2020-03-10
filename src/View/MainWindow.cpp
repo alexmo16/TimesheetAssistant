@@ -15,7 +15,7 @@ constexpr auto ONE_MINUTE_MS = 60 * 1000;
 namespace View
 {
 	MainWindow::MainWindow( std::shared_ptr<Model::ModelThread> pModelThread_, QWidget* pParent_ )
-		: QMainWindow( pParent_ ), m_pModelThread( pModelThread_ ), m_helpDialog( this ),
+		: QMainWindow( pParent_ ), m_pModelThread( pModelThread_ ), m_helpDialog( this ), m_aboutDialog( this ),
 		  m_currentDayTotalTime( QTime( 0, 0 ) )
 	{
 		m_ui.setupUi( this );
@@ -23,7 +23,8 @@ namespace View
 		SetCurrentWeekLabel();
 		m_workDays = { m_ui.mondayTime, m_ui.tuesdayTime, m_ui.wednesdayTime, m_ui.thursdayTime, m_ui.fridayTime };
 
-		connect( m_ui.actionHelp, &QAction::triggered, [ this ]( const bool checked_ ) { OnHelpAction( checked_ ); } );
+		connect( m_ui.actionHelp, &QAction::triggered, [ this ]( const bool /*checked_*/ ) { OnHelpAction(); } );
+		connect( m_ui.actionAbout, &QAction::triggered, [ this ]( const bool /*checked_*/ ) { OnAboutAction(); } );
 		connect( m_pModelThread.get(), &Model::ModelThread::TimesheetUpdated,
 			[ this ]( const QSharedPointer<Model::Timesheet>& timesheet_ ) { OnTimesheetUpdated( *timesheet_ ); } );
 		connect( m_ui.actionRefresh, &QAction::triggered, [ this ]( const bool /*checked_*/ ) { OnRefreshClicked(); } );
@@ -70,9 +71,14 @@ namespace View
 	/*
 	 * @brief Callback when the menu action button is clicked to open help dialog.
 	 */
-	void MainWindow::OnHelpAction( const bool /*checked_*/ )
+	void MainWindow::OnHelpAction()
 	{
 		m_helpDialog.open();
+	}
+
+	void MainWindow::OnAboutAction()
+	{
+		m_aboutDialog.open();
 	}
 
 	void MainWindow::SetCurrentWeekLabel()

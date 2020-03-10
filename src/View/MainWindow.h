@@ -2,6 +2,7 @@
 
 #include "ui_MainWindow.h"
 
+#include "Components/AboutDialog.h"
 #include "Components/HelpDialog.h"
 #include "Model/Events/Event.h"
 
@@ -33,7 +34,8 @@ namespace View
 		void closeEvent( QCloseEvent* pEvent_ ) override;
 
 	private slots:
-		void OnHelpAction( const bool checked_ );
+		void OnHelpAction();
+		void OnAboutAction();
 		void OnTimesheetUpdated( const Model::Timesheet& timesheet_ );
 		void OnRefreshClicked();
 
@@ -43,6 +45,7 @@ namespace View
 
 		Ui::MainWindowClass m_ui;
 		HelpDialog m_helpDialog;
+		AboutDialog m_aboutDialog;
 		std::shared_ptr<Model::ModelThread> m_pModelThread;
 		std::vector<QLineEdit*> m_workDays;
 		QDate m_mondayDate;
