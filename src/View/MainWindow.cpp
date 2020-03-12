@@ -71,7 +71,7 @@ namespace View
 
 		m_currentDayTotalTime = m_currentDayTotalTime.addMSecs( m_currentDayTimer.elapsed() );
 		m_currentDayTimer.restart();
-		pWorkDayLineEdit->setText( m_currentDayTotalTime.toString( "H'h'mm" ) );
+		m_workDaysStrings[ index ] = m_currentDayTotalTime.toString( "H'h'mm" );
 	}
 
 	/**
