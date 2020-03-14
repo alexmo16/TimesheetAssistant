@@ -28,7 +28,7 @@ namespace Model
 
 		// Only last 7 days are query to not ask for all events logged since the Big Bang.
 		const std::wstring query = L"Event/System[(EventID=4800 or EventID=4801 or EventID=4647 or EventID=4624)] and "
-								   L"Event/System/TimeCreated[timediff(@SystemTime) <= 86400000]";
+								   L"Event/System/TimeCreated[timediff(@SystemTime) <= 604800000]";
 		const std::wstring channel = L"Security";
 
 		// Init new data subscriber
