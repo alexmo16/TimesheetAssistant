@@ -24,9 +24,9 @@ namespace Model
 
 		QueryParser( QObject* pParent_ = Q_NULLPTR );
 
-		DWORD ParseToEvents( const EVT_HANDLE& results_, Model::TEvents& xmlEvents_ ) const;
+		DWORD parseToEvents( const EVT_HANDLE& results_, Model::TEvents& xmlEvents_ ) const;
 
-		void ApplyEventsFilter( const EventsFilter filter_, Model::TEvents& events_ ) const;
+		void applyEventsFilter( const EventsFilter filter_, Model::TEvents& events_ ) const;
 	};
 
 } // namespace Model

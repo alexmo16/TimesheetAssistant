@@ -17,11 +17,11 @@ namespace Model
 		WorkDay( const QDate& date_, QObject* pParent_ = Q_NULLPTR );
 		~WorkDay() = default;
 
-		QTime GetWorkTime();
-		void SetWorkTime( const QTime& workTime_ );
-		void SetWorkTime( const QString& workTime_, const QString& format_ );
-		void AddWorkTime( const QTime& workTime_ );
-		QDate GetDate()
+		QTime getWorkTime();
+		void setWorkTime( const QTime& workTime_ );
+		void setWorkTime( const QString& workTime_, const QString& format_ );
+		void addWorkTime( const QTime& workTime_ );
+		QDate getDate()
 		{
 			return m_date;
 		};

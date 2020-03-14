@@ -11,12 +11,12 @@ namespace Model
 	{
 	}
 
-	const TWorkDays Timesheet::GetWorkDays() const
+	const TWorkDays Timesheet::getWorkDays() const
 	{
 		return m_workDays;
 	}
 
-	void Timesheet::SetWorkDays( TWorkDays workDays_ )
+	void Timesheet::setWorkDays( TWorkDays workDays_ )
 	{
 		m_workDays = workDays_;
 	}

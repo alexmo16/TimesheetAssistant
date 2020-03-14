@@ -13,7 +13,7 @@
 namespace Model
 {
 	constexpr auto SLEEP_TIME = 100;
-	void _LogEvents( const TEvents& events_ );
+	void _logEvents( const TEvents& events_ );
 	void _logTimesheet( const Timesheet& timesheet_ );
 
 	ModelThread::ModelThread( QObject* pParent_ ) : QThread( pParent_ )
@@ -28,7 +28,7 @@ namespace Model
 
 		// Only last 7 days are query to not ask for all events logged since the Big Bang.
 		const std::wstring query = L"Event/System[(EventID=4800 or EventID=4801 or EventID=4647 or EventID=4624)] and "
-								   L"Event/System/TimeCreated[timediff(@SystemTime) <= 604800000]";
+								   L"Event/System/TimeCreated[timediff(@SystemTime) <= 86400000]";
 		const std::wstring channel = L"Security";
 
 		// Init new data subscriber
@@ -73,20 +73,20 @@ namespace Model
 				{
 					continue;
 				}
-				const DWORD isInError = parser.ParseToEvents( hSubscription, events );
+				const DWORD isInError = parser.parseToEvents( hSubscription, events );
 				if ( isInError != ERROR_SUCCESS )
 				{
 					break;
 				}
-				parser.ApplyEventsFilter( QueryParser::EventsFilter::E_CURRENT_WEEK_EVENTS, events );
+				parser.applyEventsFilter( QueryParser::EventsFilter::E_CURRENT_WEEK_EVENTS, events );
 
 				if ( !events.empty() && events.size() >= 2 )
 				{
-					_LogEvents( events );
-					timesheetBuilder.Build( events, *timesheet );
+					_logEvents( events );
+					timesheetBuilder.build( events, *timesheet );
 					qInfo() << "-------------------------------------------------";
 					_logTimesheet( *timesheet );
-					emit TimesheetUpdated( timesheet );
+					emit timesheetUpdated( timesheet );
 				}
 			}
 
@@ -114,14 +114,14 @@ namespace Model
 	}
 
 	// Log queried events informations.
-	void _LogEvents( const TEvents& events_ )
+	void _logEvents( const TEvents& events_ )
 	{
 		for ( const auto& pEvent : events_ )
 		{
 			if ( pEvent != nullptr )
 			{
-				qInfo() << "Time: " << pEvent->GetDateTime();
-				qInfo() << "Event ID: " << pEvent->GetEventType();
+				qInfo() << "Time: " << pEvent->getDateTime();
+				qInfo() << "Event ID: " << pEvent->getEventType();
 			}
 		}
 		qInfo() << events_.size();
@@ -130,14 +130,14 @@ namespace Model
 	// Log a timesheet workdays
 	void _logTimesheet( const Timesheet& timesheet_ )
 	{
-		const TWorkDays& workDays = timesheet_.GetWorkDays();
+		const TWorkDays& workDays = timesheet_.getWorkDays();
 		for ( const auto& pWorkDay : workDays )
 		{
 			if ( pWorkDay == nullptr )
 			{
 				continue;
 			}
-			qInfo() << "WorkedTime: " << pWorkDay->GetWorkTime();
+			qInfo() << "WorkedTime: " << pWorkDay->getWorkTime();
 		}
 	}
 } // namespace Model

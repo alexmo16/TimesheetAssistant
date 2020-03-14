@@ -9,9 +9,18 @@
 
 namespace Model
 {
+	enum class TypeOfEvents
+	{
+		E_LOGIN,
+		E_LOGOUT
+	};
+
+	void _calculateWorkTime(
+		const QDateTime& firstTime_, const QDateTime& lastTime_, QSharedPointer<WorkDay>& workDay_ );
+
 	TimesheetBuilder::TimesheetBuilder( QObject* pParent_ /*= Q_NULLPTR*/ ) : QObject( pParent_ ) {}
 
-	void TimesheetBuilder::Build( const TEvents& events_, Timesheet& timesheet_ )
+	void TimesheetBuilder::build( const TEvents& events_, Timesheet& timesheet_ )
 	{
 		if ( events_.size() < 2 )
 		{
@@ -25,6 +34,9 @@ namespace Model
 		QDateTime firstTime;
 		QDateTime lastTime;
 		QSharedPointer<WorkDay> workDay;
+
+		TypeOfEvents eventWaitingFor = TypeOfEvents::E_LOGIN;
+
 		for ( const auto& pEvent : events_ )
 		{
 			if ( pEvent == nullptr )
@@ -32,42 +44,52 @@ namespace Model
 				continue;
 			}
 
-			const QDateTime& eventTime = pEvent->GetDateTime();
+			const QDateTime& eventTime = pEvent->getDateTime();
 			const QDate& eventDate = eventTime.date();
+
+			// Useless to initialize those variables if it's the last event.
+			if ( currentDate.isNull() && pEvent != events_.back() )
+			{
+				currentDate = eventDate;
+				firstTime = eventTime;
+				lastTime = QDateTime();
+				workDay = QSharedPointer<WorkDay>( new WorkDay( currentDate, &timesheet_ ) );
+				eventWaitingFor = TypeOfEvents::E_LOGOUT;
+				continue;
+			}
 
 			if ( pEvent == events_.back() )
 			{
-				if ( pEvent->IsLogoutEvent() && !firstTime.isNull() && !lastTime.isNull() )
+				if ( pEvent->isLogoutEvent() )
 				{
 					lastTime = eventTime;
-					const auto ms = lastTime.toMSecsSinceEpoch() - firstTime.toMSecsSinceEpoch();
-					QTime workedTime = QTime::fromMSecsSinceStartOfDay( ms );
-					workDay->AddWorkTime( workedTime );
+					_calculateWorkTime( firstTime, lastTime, workDay );
 				}
 				if ( !workDay.isNull() )
 				{
 					workDays.push_back( workDay );
 					workDay.clear();
 				}
-				break;
+				continue;
 			}
 
 			if ( currentDate == eventDate )
 			{
-				if ( pEvent->IsLogoutEvent() )
+				// Processing events logged in the same day.
+				if ( pEvent->isLogoutEvent() && eventWaitingFor == TypeOfEvents::E_LOGOUT )
 				{
 					lastTime = eventTime;
-					const auto ms = lastTime.toMSecsSinceEpoch() - firstTime.toMSecsSinceEpoch();
-					QTime workedTime = QTime::fromMSecsSinceStartOfDay( ms );
-					workDay->AddWorkTime( workedTime );
+					_calculateWorkTime( firstTime, lastTime, workDay );
+					eventWaitingFor = TypeOfEvents::E_LOGIN;
 				}
-				else if ( pEvent->IsLoginEvent() )
+				else if ( pEvent->isLoginEvent() && eventWaitingFor == TypeOfEvents::E_LOGIN )
 				{
 					firstTime = eventTime;
 					lastTime = QDateTime();
+					eventWaitingFor = TypeOfEvents::E_LOGOUT;
 				}
 			}
-			else if ( pEvent->IsLoginEvent() )
+			else if ( pEvent->isLoginEvent() )
 			{
 				if ( !workDay.isNull() )
 				{
@@ -79,9 +101,20 @@ namespace Model
 				firstTime = eventTime;
 				lastTime = QDateTime();
 				workDay = QSharedPointer<WorkDay>( new WorkDay( currentDate, &timesheet_ ) );
+				eventWaitingFor = TypeOfEvents::E_LOGOUT;
 			}
 		}
+		timesheet_.setWorkDays( workDays );
+	}
 
-		timesheet_.SetWorkDays( workDays );
+	void _calculateWorkTime(
+		const QDateTime& firstTime_, const QDateTime& lastTime_, QSharedPointer<WorkDay>& workDay_ )
+	{
+		const auto ms = lastTime_.toMSecsSinceEpoch() - firstTime_.toMSecsSinceEpoch();
+		QTime workedTime = QTime::fromMSecsSinceStartOfDay( ms );
+		if ( workDay_ != nullptr && workedTime.isValid() )
+		{
+			workDay_->addWorkTime( workedTime );
+		}
 	}
 } // namespace Model

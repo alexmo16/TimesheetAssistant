@@ -37,13 +37,13 @@ namespace View
 		void paintEvent( QPaintEvent* pEvent_ ) override;
 
 	private slots:
-		void OnHelpAction();
-		void OnAboutAction();
-		void OnTimesheetUpdated( const Model::Timesheet& timesheet_ );
-		void OnRefreshClicked();
+		void onHelpAction();
+		void onAboutAction();
+		void onTimesheetUpdated( const Model::Timesheet& timesheet_ );
+		void onRefreshClicked();
 
 	private:
-		void SetCurrentWeekLabel();
+		void setCurrentWeekLabel();
 
 		Ui::MainWindowClass m_ui;
 		HelpDialog m_helpDialog;

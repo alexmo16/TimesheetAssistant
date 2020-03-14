@@ -10,18 +10,18 @@ namespace Model
 	{
 	}
 
-	QTime WorkDay::GetWorkTime()
+	QTime WorkDay::getWorkTime()
 	{
 		QTime copy = m_workedTime;
 		return copy;
 	}
 
-	void WorkDay::SetWorkTime( const QTime& workTime_ )
+	void WorkDay::setWorkTime( const QTime& workTime_ )
 	{
 		m_workedTime = workTime_;
 	}
 
-	void WorkDay::SetWorkTime( const QString& workTime_, const QString& format_ )
+	void WorkDay::setWorkTime( const QString& workTime_, const QString& format_ )
 	{
 		if ( !( workTime_.isEmpty() && workTime_.isEmpty() ) )
 		{
@@ -29,7 +29,7 @@ namespace Model
 		}
 	}
 
-	void WorkDay::AddWorkTime( const QTime& workTime_ )
+	void WorkDay::addWorkTime( const QTime& workTime_ )
 	{
 		m_workedTime = m_workedTime.addMSecs( workTime_.msecsSinceStartOfDay() );
 	}

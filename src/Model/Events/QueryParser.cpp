@@ -13,7 +13,7 @@ namespace Model
 	constexpr auto CHUNK_SIZE = 10;
 	constexpr auto TIMEOUT = 1000;
 
-	DWORD _ConvertEvent( EVT_HANDLE event_, std::unique_ptr<Model::Event>& pXmlEvent_ )
+	DWORD _convertEvent( EVT_HANDLE event_, std::unique_ptr<Model::Event>& pXmlEvent_ )
 	{
 		DWORD status = ERROR_SUCCESS;
 		DWORD bufferSize = 0;
@@ -48,7 +48,11 @@ namespace Model
 		{
 			if ( pRenderedContent != 0 )
 			{
-				pXmlEvent_ = std::make_unique<Model::Event>( QString::fromStdWString( pRenderedContent ) );
+				const QString& xmlDocInString = QString::fromStdWString( pRenderedContent );
+				if ( getEventTargetUserName( xmlDocInString ) == qgetenv( "USERNAME" ) )
+				{
+					pXmlEvent_ = std::make_unique<Model::Event>( xmlDocInString );
+				}
 			}
 		}
 		else
@@ -64,7 +68,7 @@ namespace Model
 		return status;
 	}
 
-	void _KeepCurrentWeekEvents( Model::TEvents& events_ )
+	void _keepCurrentWeekEvents( Model::TEvents& events_ )
 	{
 		Model::TEvents filteredEvents;
 
@@ -76,7 +80,7 @@ namespace Model
 			}
 
 			// 1 = Monday and 7 = Sunday
-			const int dayNumber = pEvent->GetDateTime().date().dayOfWeek();
+			const int dayNumber = pEvent->getDateTime().date().dayOfWeek();
 			// we compare to 5 because it is the last work day (friday).
 			if ( ( dayNumber - 5 ) <= 0 )
 			{
@@ -87,7 +91,7 @@ namespace Model
 		events_ = std::move( filteredEvents );
 	}
 
-	void _KeepWeekendEvents( Model::TEvents& events_ )
+	void _keepWeekendEvents( Model::TEvents& events_ )
 	{
 
 		Model::TEvents filteredEvents;
@@ -100,7 +104,7 @@ namespace Model
 			}
 
 			// 1 = Monday and 7 = Sunday
-			const int dayNumber = pEvent->GetDateTime().date().dayOfWeek();
+			const int dayNumber = pEvent->getDateTime().date().dayOfWeek();
 			// we compare to 5 because it is the last work day (friday).
 			if ( ( dayNumber - 5 ) > 0 )
 			{
@@ -114,7 +118,7 @@ namespace Model
 	QueryParser::QueryParser( QObject* pParent_ /*= Q_NULLPTR*/ ) : QObject( pParent_ ) {}
 
 	// Enumerate all the events in the result set.
-	DWORD QueryParser::ParseToEvents( const EVT_HANDLE& results_, Model::TEvents& xmlEvents_ ) const
+	DWORD QueryParser::parseToEvents( const EVT_HANDLE& results_, Model::TEvents& xmlEvents_ ) const
 	{
 		DWORD status = ERROR_SUCCESS;
 		EVT_HANDLE events[ CHUNK_SIZE ];
@@ -135,7 +139,7 @@ namespace Model
 			std::unique_ptr<Model::Event> pTmpEvent;
 			for ( DWORD i = 0; i < wordReturned; i++ )
 			{
-				status = _ConvertEvent( events[ i ], pTmpEvent );
+				status = _convertEvent( events[ i ], pTmpEvent );
 				if ( status != ERROR_SUCCESS )
 				{
 					break;
@@ -162,15 +166,15 @@ namespace Model
 		return status == ERROR_SUCCESS || status == ERROR_NO_MORE_ITEMS ? ERROR_SUCCESS : status;
 	}
 
-	void QueryParser::ApplyEventsFilter( const EventsFilter filter_, Model::TEvents& events_ ) const
+	void QueryParser::applyEventsFilter( const EventsFilter filter_, Model::TEvents& events_ ) const
 	{
 		switch ( filter_ )
 		{
 		case EventsFilter::E_CURRENT_WEEK_EVENTS:
-			_KeepCurrentWeekEvents( events_ );
+			_keepCurrentWeekEvents( events_ );
 			break;
 		case EventsFilter::E_WEEKEND_EVENTS:
-			_KeepWeekendEvents( events_ );
+			_keepWeekendEvents( events_ );
 			break;
 		default:
 			Q_ASSERT_X( false, "ApplyEventsFilter", "Filter type not supported" );

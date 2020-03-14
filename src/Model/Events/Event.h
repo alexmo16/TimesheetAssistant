@@ -26,20 +26,20 @@ namespace Model
 		Event( QObject* pParent_ = Q_NULLPTR );
 		Event( const QString& xmlEvent_, QObject* pParent_ = Q_NULLPTR );
 
-		QDateTime GetDateTime() const
+		QDateTime getDateTime() const
 		{
 			return m_dateTime;
 		}
 
-		EventType GetEventType() const
+		EventType getEventType() const
 		{
 			return m_type;
 		}
 
-		void SetInfoFromXml( const QString& xmlEvent_ );
+		void setInfoFromXml( const QString& xmlEvent_ );
 
-		bool IsLogoutEvent() const;
-		bool IsLoginEvent() const;
+		bool isLogoutEvent() const;
+		bool isLoginEvent() const;
 
 	private:
 		QDateTime m_dateTime;
@@ -47,5 +47,7 @@ namespace Model
 	};
 
 	typedef std::vector<std::unique_ptr<Model::Event>> TEvents;
+
+	QString getEventTargetUserName( const QString& xmlEvent_ );
 
 } // namespace Model

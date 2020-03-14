@@ -18,16 +18,16 @@ namespace View
 	{
 		m_ui.setupUi( this );
 
-		SetCurrentWeekLabel();
+		setCurrentWeekLabel();
 		m_workDays = { m_ui.mondayTime, m_ui.tuesdayTime, m_ui.wednesdayTime, m_ui.thursdayTime, m_ui.fridayTime };
 		m_workDaysStrings = { m_ui.mondayTime->text(), m_ui.tuesdayTime->text(), m_ui.wednesdayTime->text(),
 			m_ui.thursdayTime->text(), m_ui.fridayTime->text() };
 
-		connect( m_ui.actionHelp, &QAction::triggered, [ this ]( const bool /*checked_*/ ) { OnHelpAction(); } );
-		connect( m_ui.actionAbout, &QAction::triggered, [ this ]( const bool /*checked_*/ ) { OnAboutAction(); } );
-		connect( m_pModelThread.get(), &Model::ModelThread::TimesheetUpdated,
-			[ this ]( const QSharedPointer<Model::Timesheet>& timesheet_ ) { OnTimesheetUpdated( *timesheet_ ); } );
-		connect( m_ui.actionRefresh, &QAction::triggered, [ this ]( const bool /*checked_*/ ) { OnRefreshClicked(); } );
+		connect( m_ui.actionHelp, &QAction::triggered, [ this ]( const bool /*checked_*/ ) { onHelpAction(); } );
+		connect( m_ui.actionAbout, &QAction::triggered, [ this ]( const bool /*checked_*/ ) { onAboutAction(); } );
+		connect( m_pModelThread.get(), &Model::ModelThread::timesheetUpdated,
+			[ this ]( const QSharedPointer<Model::Timesheet>& timesheet_ ) { onTimesheetUpdated( *timesheet_ ); } );
+		connect( m_ui.actionRefresh, &QAction::triggered, [ this ]( const bool /*checked_*/ ) { onRefreshClicked(); } );
 
 		if ( m_pModelThread != nullptr )
 		{
@@ -50,7 +50,7 @@ namespace View
 		}
 	}
 
-	void MainWindow::OnRefreshClicked()
+	void MainWindow::onRefreshClicked()
 	{
 		if ( m_workDays.empty() )
 		{
@@ -86,17 +86,17 @@ namespace View
 	/*
 	 * @brief Callback when the menu action button is clicked to open help dialog.
 	 */
-	void MainWindow::OnHelpAction()
+	void MainWindow::onHelpAction()
 	{
 		m_helpDialog.open();
 	}
 
-	void MainWindow::OnAboutAction()
+	void MainWindow::onAboutAction()
 	{
 		m_aboutDialog.open();
 	}
 
-	void MainWindow::SetCurrentWeekLabel()
+	void MainWindow::setCurrentWeekLabel()
 	{
 		const QDate& currentDate = QDate::currentDate();
 		const int currentWeekDay = currentDate.dayOfWeek();
@@ -112,26 +112,26 @@ namespace View
 		}
 	}
 
-	void MainWindow::OnTimesheetUpdated( const Model::Timesheet& timesheet_ )
+	void MainWindow::onTimesheetUpdated( const Model::Timesheet& timesheet_ )
 	{
 		if ( m_workDays.empty() )
 		{
 			return;
 		}
 
-		const Model::TWorkDays& workDays = timesheet_.GetWorkDays();
+		const Model::TWorkDays& workDays = timesheet_.getWorkDays();
 		for ( const auto& pWorkDay : workDays )
 		{
 			if ( pWorkDay == nullptr )
 			{
 				continue;
 			}
-			const QDate& date = pWorkDay->GetDate();
+			const QDate& date = pWorkDay->getDate();
 			if ( date < m_mondayDate )
 			{
 				continue;
 			}
-			const QString& timeStr = pWorkDay->GetWorkTime().toString( "H'h'mm" );
+			const QString& timeStr = pWorkDay->getWorkTime().toString( "H'h'mm" );
 			m_workDaysStrings[ date.dayOfWeek() - 1 ] = timeStr;
 
 			if ( date == QDate::currentDate() )

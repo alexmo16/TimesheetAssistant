@@ -21,7 +21,7 @@ namespace Model
 		void stop();
 
 	signals:
-		void TimesheetUpdated( const QSharedPointer<Timesheet>& timesheet_ );
+		void timesheetUpdated( const QSharedPointer<Timesheet>& timesheet_ );
 
 	private:
 		bool m_isRunning = false;

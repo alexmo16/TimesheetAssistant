@@ -11,10 +11,10 @@ namespace Model
 
 	Event::Event( const QString& xmlEvent_, QObject* pParent_ /*= Q_NULLPTR*/ ) : QObject( pParent_ )
 	{
-		SetInfoFromXml( xmlEvent_ );
+		setInfoFromXml( xmlEvent_ );
 	}
 
-	void Event::SetInfoFromXml( const QString& xmlEvent_ )
+	void Event::setInfoFromXml( const QString& xmlEvent_ )
 	{
 		QDomDocument doc;
 		doc.setContent( xmlEvent_ );
@@ -42,14 +42,33 @@ namespace Model
 		}
 	}
 
-	bool Event::IsLoginEvent() const
+	bool Event::isLoginEvent() const
 	{
 		return m_type == EventType::E_LOGON || m_type == EventType::E_UNLOCKED;
 	}
 
-	bool Event::IsLogoutEvent() const
+	bool Event::isLogoutEvent() const
 	{
 		return m_type == EventType::E_LOCKED || m_type == EventType::E_LOGOFF;
+	}
+
+	QString getEventTargetUserName( const QString& xmlEvent_ )
+	{
+		QDomDocument doc;
+		doc.setContent( xmlEvent_ );
+
+		const QDomElement& eventDataElement = doc.elementsByTagName( "EventData" ).at( 0 ).toElement();
+		const QDomNodeList& nodes = eventDataElement.elementsByTagName( "Data" );
+		for ( int index = 0; index < nodes.size(); ++index )
+		{
+			const QDomElement& element = nodes.at( index ).toElement();
+			if ( element.attribute( "Name" ) == "TargetUserName" )
+			{
+				return element.text();
+			}
+		}
+
+		return QString();
 	}
 
 } // namespace Model
