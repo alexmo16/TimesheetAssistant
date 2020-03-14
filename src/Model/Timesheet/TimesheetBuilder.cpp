@@ -48,7 +48,8 @@ namespace Model
 			const QDate& eventDate = eventTime.date();
 
 			// Useless to initialize those variables if it's the last event.
-			if ( currentDate.isNull() && pEvent != events_.back() && pEvent->isLoginEvent() )
+			if ( currentDate.isNull() && pEvent != events_.back() && pEvent->isLoginEvent() &&
+				 eventWaitingFor == TypeOfEvents::E_LOGIN )
 			{
 				currentDate = eventDate;
 				firstTime = eventTime;
@@ -89,7 +90,7 @@ namespace Model
 					eventWaitingFor = TypeOfEvents::E_LOGOUT;
 				}
 			}
-			else if ( pEvent->isLoginEvent() )
+			else if ( pEvent->isLoginEvent() && eventWaitingFor == TypeOfEvents::E_LOGIN )
 			{
 				if ( !workDay.isNull() )
 				{
