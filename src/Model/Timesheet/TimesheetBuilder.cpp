@@ -66,6 +66,12 @@ namespace Model
 					lastTime = eventTime;
 					_calculateWorkTime( firstTime, lastTime, workDay );
 				}
+				else if ( pEvent->isLoginEvent() )
+				{
+					firstTime = eventTime;
+					lastTime = QDateTime::currentDateTime();
+					_calculateWorkTime( firstTime, lastTime, workDay );
+				}
 				if ( !workDay.isNull() )
 				{
 					workDays.push_back( workDay );
