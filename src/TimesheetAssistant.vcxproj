@@ -39,8 +39,10 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <CustomBuildBeforeTargets>Qt</CustomBuildBeforeTargets>
+    <CustomBuildBeforeTargets>
+    </CustomBuildBeforeTargets>
     <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
+    <EmbedManifest>false</EmbedManifest>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <CustomBuildBeforeTargets>Qt</CustomBuildBeforeTargets>
@@ -102,10 +104,14 @@
       <AdditionalLibraryDirectories>$(Qt_LIBPATH_);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <CustomBuildStep>
-      <Command>"$(QTDIR)\bin\rcc.exe" -binary ".\Resources\TimesheetAssistant.qrc" -o ".\GeneratedFiles\TimesheetAssistant.rcc"</Command>
-      <Outputs>.\GeneratedFiles\TimesheetAssistant.rcc</Outputs>
-      <Inputs>.\Resources\TimesheetAssistant.qrc</Inputs>
-      <Message>Building RCC file</Message>
+      <Command>
+      </Command>
+      <Outputs>
+      </Outputs>
+      <Inputs>
+      </Inputs>
+      <Message>
+      </Message>
     </CustomBuildStep>
     <PostBuildEvent>
       <Command>
