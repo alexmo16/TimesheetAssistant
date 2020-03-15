@@ -57,11 +57,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="Resources\TimesheetAssistant.qrc">
-      <Filter>Resource Files</Filter>
-    </CustomBuild>
-  </ItemGroup>
-  <ItemGroup>
     <Image Include="Resources\TimesheetAssistant.ico">
       <Filter>Resource Files</Filter>
     </Image>
@@ -111,6 +106,7 @@
     <None Include="..\.clang-format" />
     <None Include="..\README.md" />
     <None Include="Resources\TimesheetAssistant.aps" />
+    <None Include="Resources\rt_manif.bin" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Model\Utils\NotImplemented.h">
@@ -119,5 +115,10 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resources\TimesheetAssistant.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="Resources\TimesheetAssistant.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
   </ItemGroup>
 </Project>

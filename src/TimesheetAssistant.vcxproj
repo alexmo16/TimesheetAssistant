@@ -40,6 +40,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <CustomBuildBeforeTargets>Qt</CustomBuildBeforeTargets>
+    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <CustomBuildBeforeTargets>Qt</CustomBuildBeforeTargets>
@@ -54,6 +55,7 @@
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <QtInstall>5.14.1</QtInstall>
     <QtModules>core;gui;widgets;xml</QtModules>
+    <QMakeCodeLines>$(QMakeCodeLines)</QMakeCodeLines>
   </PropertyGroup>
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.props')">
     <Import Project="$(QtMsBuild)\qt.props" />
@@ -105,6 +107,13 @@
       <Inputs>.\Resources\TimesheetAssistant.qrc</Inputs>
       <Message>Building RCC file</Message>
     </CustomBuildStep>
+    <PostBuildEvent>
+      <Command>
+$(QTDIR)\bin\windeployqt.exe $(OutDir)</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Deploy Release build</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="View\Components\AboutDialog.cpp" />
@@ -117,9 +126,6 @@
     <ClCompile Include="Model\Timesheet\TimesheetBuilder.cpp" />
     <ClCompile Include="Model\Timesheet\WorkDay.cpp" />
     <ClCompile Include="View\MainWindow.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <CustomBuild Include="Resources\TimesheetAssistant.qrc" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\refresh.png" />
@@ -139,6 +145,7 @@
   <ItemGroup>
     <None Include="..\.clang-format" />
     <None Include="..\README.md" />
+    <None Include="Resources\rt_manif.bin" />
     <None Include="Resources\TimesheetAssistant.aps" />
   </ItemGroup>
   <ItemGroup>
@@ -163,6 +170,9 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resources\TimesheetAssistant.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="Resources\TimesheetAssistant.qrc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

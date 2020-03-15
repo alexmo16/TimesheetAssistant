@@ -7,9 +7,7 @@
 
 int main( int argc, char* argv[] )
 {
-	QResource::registerResource( "./GeneratedFiles/TimesheetAssistant.rcc" );
 	QApplication a( argc, argv );
-
 	std::shared_ptr<Model::ModelThread> modelThread = std::make_shared<Model::ModelThread>();
 
 	View::MainWindow w( modelThread );
