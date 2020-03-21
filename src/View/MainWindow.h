@@ -44,6 +44,7 @@ namespace View
 
 	private:
 		void setCurrentWeekLabel();
+		void calculateTotalTime();
 
 		Ui::MainWindowClass m_ui;
 		HelpDialog m_helpDialog;
@@ -54,6 +55,7 @@ namespace View
 		QDate m_mondayDate;
 		QDate m_fridayDate;
 		QTime m_currentDayTotalTime;
+		QTime m_totalWorkTime;
 		QElapsedTimer m_currentDayTimer;
 	};
 

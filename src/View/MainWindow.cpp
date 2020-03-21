@@ -14,7 +14,7 @@ namespace View
 {
 	MainWindow::MainWindow( std::shared_ptr<Model::ModelThread> pModelThread_, QWidget* pParent_ )
 		: QMainWindow( pParent_ ), m_pModelThread( pModelThread_ ), m_helpDialog( this ), m_aboutDialog( this ),
-		  m_currentDayTotalTime( QTime( 0, 0 ) )
+		  m_currentDayTotalTime( QTime( 0, 0 ) ), m_totalWorkTime( QTime( 0, 0 ) )
 	{
 		m_ui.setupUi( this );
 
@@ -48,6 +48,7 @@ namespace View
 
 			pWorkDayLineEdit->setText( m_workDaysStrings.at( index ) );
 		}
+		m_ui.totalTime->setText( m_totalWorkTime.toString( "H'h'mm" ) );
 	}
 
 	void MainWindow::onRefreshClicked()
@@ -62,15 +63,14 @@ namespace View
 		{
 			return;
 		}
-		QLineEdit* pWorkDayLineEdit = m_workDays.at( index );
-		if ( pWorkDayLineEdit == nullptr )
-		{
-			return;
-		}
 
 		m_currentDayTotalTime = m_currentDayTotalTime.addMSecs( m_currentDayTimer.elapsed() );
 		m_currentDayTimer.restart();
 		m_workDaysStrings[ index ] = m_currentDayTotalTime.toString( "H'h'mm" );
+
+		calculateTotalTime();
+
+		update();
 	}
 
 	/**
@@ -140,6 +140,17 @@ namespace View
 				m_currentDayTimer.start();
 			}
 		}
+		calculateTotalTime();
 		update();
+	}
+
+	void MainWindow::calculateTotalTime()
+	{
+		QTime totalTime( 0, 0 );
+		for ( auto& workdayString : m_workDaysStrings )
+		{
+			totalTime.addMSecs( QTime::fromString( workdayString, "H'h'mm" ).msecsSinceStartOfDay() );
+		}
+		m_totalWorkTime = totalTime;
 	}
 } // namespace View
