@@ -149,7 +149,7 @@ namespace View
 		QTime totalTime( 0, 0 );
 		for ( auto& workdayString : m_workDaysStrings )
 		{
-			totalTime.addMSecs( QTime::fromString( workdayString, "H'h'mm" ).msecsSinceStartOfDay() );
+			totalTime = totalTime.addMSecs( QTime::fromString( workdayString, "H'h'mm" ).msecsSinceStartOfDay() );
 		}
 		m_totalWorkTime = totalTime;
 	}
