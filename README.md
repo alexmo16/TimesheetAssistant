@@ -1,7 +1,7 @@
 # TimesheetAssistant
  An assistant that helps you fill out your timesheets by automatically calculating your working hours. (Windows only)
 
-### What it looks like so far:
+### What it looks like so far (could be better):
   ![mainwindow](https://github.com/introlab/rendezvous/blob/master/screenshots/mainwindow.png)
 
 ## Dependencies:
