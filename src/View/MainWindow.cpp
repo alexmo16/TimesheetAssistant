@@ -8,13 +8,15 @@
 #include <QAction>
 #include <QDate>
 #include <QDebug>
+#include <QSettings>
 #include <QTimer>
 
 namespace View
 {
-	MainWindow::MainWindow( std::shared_ptr<Model::ModelThread> pModelThread_, QWidget* pParent_ )
+	MainWindow::MainWindow(
+		std::shared_ptr<Model::ModelThread> pModelThread_, QSharedPointer<QSettings> pSettings_, QWidget* pParent_ )
 		: QMainWindow( pParent_ ), m_pModelThread( pModelThread_ ), m_helpDialog( this ), m_aboutDialog( this ),
-		  m_settingsDialog( this ), m_currentDayTotalTime( QTime( 0, 0 ) ), m_totalWorkTime( QTime( 0, 0 ) )
+		  m_settingsDialog( pSettings_, this ), m_currentDayTotalTime( QTime( 0, 0 ) ), m_totalWorkTime( QTime( 0, 0 ) )
 	{
 		m_ui.setupUi( this );
 

@@ -4,7 +4,8 @@
 
 namespace View
 {
-	SettingsDialog::SettingsDialog( QWidget* pParent_ ) : QDialog( pParent_ )
+	SettingsDialog::SettingsDialog( QSharedPointer<QSettings> pSettings_, QWidget* pParent_ )
+		: QDialog( pParent_ ), m_pSettings( std::move( pSettings_ ) )
 	{
 		m_ui.setupUi( this );
 		setWindowFlag( Qt::WindowContextHelpButtonHint, false );

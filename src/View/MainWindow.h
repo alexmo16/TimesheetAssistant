@@ -10,6 +10,8 @@
 #include <QDate>
 #include <QElapsedTimer>
 #include <QLineEdit>
+#include <QSettings>
+#include <QSharedPointer>
 #include <QString>
 #include <QTime>
 #include <QVector>
@@ -30,7 +32,8 @@ namespace View
 		Q_OBJECT
 
 	public:
-		MainWindow( std::shared_ptr<Model::ModelThread> pModelThread_, QWidget* pParent_ = Q_NULLPTR );
+		MainWindow( std::shared_ptr<Model::ModelThread> pModelThread_, QSharedPointer<QSettings> pSettings_,
+			QWidget* pParent_ = Q_NULLPTR );
 		~MainWindow() = default;
 
 	protected:
