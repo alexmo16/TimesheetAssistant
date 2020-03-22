@@ -8,6 +8,8 @@
 ## Development setup:
   - The current setup only works with visual studio, feel free to add a qt-creator setup.
   - Build step for deployment needs VCINSTALLDIR env variable, if it is not defined, please add it to your system environment variables.
-
-## Installation:
+  - You will need to activate some new local security policies to activate Logon/Logout events, see Help > TimesheetAssistant Help to know how to activate those.
+  
+## Release Installation:
   - In released zip folder, execute vc_redist.x64.exe before running TimesheetAssistant.
+  - You will need to activate some new local security policies to activate Logon/Logout events, see Help > TimesheetAssistant Help to know how to activate those.
