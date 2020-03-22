@@ -122,6 +122,7 @@ $(QTDIR)\bin\windeployqt.exe $(OutDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="View\Components\SettingsDialog.cpp" />
     <ClCompile Include="View\Components\AboutDialog.cpp" />
     <ClCompile Include="View\Components\HelpDialog.cpp" />
     <ClCompile Include="Model\Events\Event.cpp" />
@@ -135,12 +136,14 @@ $(QTDIR)\bin\windeployqt.exe $(OutDir)</Command>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\refresh.png" />
+    <Image Include="Resources\settings.png" />
     <Image Include="Resources\TimesheetAssistant.ico" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="View\MainWindow.h" />
   </ItemGroup>
   <ItemGroup>
+    <QtUic Include="View\gui\SettingsDialog.ui" />
     <QtUic Include="View\gui\AboutDialog.ui" />
     <QtUic Include="View\gui\HelpDialog.ui" />
     <QtUic Include="View\gui\MainWindow.ui" />
@@ -170,6 +173,7 @@ $(QTDIR)\bin\windeployqt.exe $(OutDir)</Command>
     <QtMoc Include="Model\Timesheet\WorkDay.h" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="View\Components\SettingsDialog.h" />
     <QtMoc Include="View\Components\HelpDialog.h" />
     <QtMoc Include="View\Components\AboutDialog.h" />
     <ClInclude Include="Model\Utils\NotImplemented.h" />

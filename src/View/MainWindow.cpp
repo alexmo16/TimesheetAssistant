@@ -14,7 +14,7 @@ namespace View
 {
 	MainWindow::MainWindow( std::shared_ptr<Model::ModelThread> pModelThread_, QWidget* pParent_ )
 		: QMainWindow( pParent_ ), m_pModelThread( pModelThread_ ), m_helpDialog( this ), m_aboutDialog( this ),
-		  m_currentDayTotalTime( QTime( 0, 0 ) ), m_totalWorkTime( QTime( 0, 0 ) )
+		  m_settingsDialog( this ), m_currentDayTotalTime( QTime( 0, 0 ) ), m_totalWorkTime( QTime( 0, 0 ) )
 	{
 		m_ui.setupUi( this );
 
@@ -25,6 +25,8 @@ namespace View
 
 		connect( m_ui.actionHelp, &QAction::triggered, [ this ]( const bool /*checked_*/ ) { onHelpAction(); } );
 		connect( m_ui.actionAbout, &QAction::triggered, [ this ]( const bool /*checked_*/ ) { onAboutAction(); } );
+		connect(
+			m_ui.actionSettings, &QAction::triggered, [ this ]( const bool /*checked_*/ ) { onSettingsAction(); } );
 		connect( m_pModelThread.get(), &Model::ModelThread::timesheetUpdated,
 			[ this ]( const QSharedPointer<Model::Timesheet>& timesheet_ ) { onTimesheetUpdated( *timesheet_ ); } );
 		connect( m_ui.actionRefresh, &QAction::triggered, [ this ]( const bool /*checked_*/ ) { onRefreshClicked(); } );
@@ -94,6 +96,11 @@ namespace View
 	void MainWindow::onAboutAction()
 	{
 		m_aboutDialog.open();
+	}
+
+	void MainWindow::onSettingsAction()
+	{
+		m_settingsDialog.open();
 	}
 
 	void MainWindow::setCurrentWeekLabel()

@@ -422,6 +422,7 @@
    </attribute>
    <addaction name="separator"/>
    <addaction name="actionRefresh"/>
+   <addaction name="actionSettings"/>
   </widget>
   <action name="actionHelp">
    <property name="text">
@@ -446,6 +447,18 @@
    </property>
    <property name="shortcut">
     <string>F5</string>
+   </property>
+  </action>
+  <action name="actionSettings">
+   <property name="icon">
+    <iconset resource="../../Resources/TimesheetAssistant.qrc">
+     <normaloff>:/MainWindow/settings.png</normaloff>:/MainWindow/settings.png</iconset>
+   </property>
+   <property name="text">
+    <string>Settings</string>
+   </property>
+   <property name="toolTip">
+    <string>Change settings</string>
    </property>
   </action>
  </widget>

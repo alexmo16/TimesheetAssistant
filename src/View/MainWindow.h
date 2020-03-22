@@ -4,6 +4,7 @@
 
 #include "Components/AboutDialog.h"
 #include "Components/HelpDialog.h"
+#include "Components/SettingsDialog.h"
 #include "Model/Events/Event.h"
 
 #include <QDate>
@@ -39,6 +40,7 @@ namespace View
 	private slots:
 		void onHelpAction();
 		void onAboutAction();
+		void onSettingsAction();
 		void onTimesheetUpdated( const Model::Timesheet& timesheet_ );
 		void onRefreshClicked();
 
@@ -49,6 +51,7 @@ namespace View
 		Ui::MainWindowClass m_ui;
 		HelpDialog m_helpDialog;
 		AboutDialog m_aboutDialog;
+		SettingsDialog m_settingsDialog;
 		std::shared_ptr<Model::ModelThread> m_pModelThread;
 		QVector<QLineEdit*> m_workDays;
 		QVector<QString> m_workDaysStrings;

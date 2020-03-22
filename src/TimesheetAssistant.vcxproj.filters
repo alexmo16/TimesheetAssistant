@@ -55,12 +55,16 @@
     <ClCompile Include="View\Components\AboutDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="View\Components\SettingsDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\TimesheetAssistant.ico">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Resources\refresh.png" />
+    <Image Include="Resources\settings.png" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="View\MainWindow.h">
@@ -90,6 +94,9 @@
     <QtMoc Include="View\Components\AboutDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="View\Components\SettingsDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="View\gui\HelpDialog.ui">
@@ -99,6 +106,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="View\gui\MainWindow.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="View\gui\SettingsDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
