@@ -14,5 +14,6 @@
   - You will need to activate some new local security policies to activate Logon/Logout events, see Help > TimesheetAssistant Help to know how to activate those.
   
 ## Release Installation:
+  - Download latest release at: https://github.com/alexmo16/TimesheetAssistant/releases
   - In released zip folder, execute vc_redist.x64.exe before running TimesheetAssistant.
   - You will need to activate some new local security policies to activate Logon/Logout events, see Help > TimesheetAssistant Help to know how to activate those.
