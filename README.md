@@ -1,6 +1,9 @@
 # TimesheetAssistant
  An assistant that helps you fill out your timesheets by automatically calculating your working hours. (Windows only)
 
+### What it looks like so far:
+  ![mainwindow](https://github.com/introlab/rendezvous/blob/master/screenshots/mainwindow.png)
+
 ## Dependencies:
   - Qt 5.14.1
   - wevtapi.lib (Windows library for events logs)
