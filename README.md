@@ -7,6 +7,7 @@
 ## Dependencies:
   - Qt 5.14.1
   - wevtapi.lib (Windows library for events logs)
+  - Windows Pro/Ultimate/Student (Window Home does not allows local security policies changes).
 
 ## Development setup:
   - The current setup only works with visual studio, feel free to add a qt-creator setup.
