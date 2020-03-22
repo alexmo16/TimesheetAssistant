@@ -2,7 +2,7 @@
  An assistant that helps you fill out your timesheets by automatically calculating your working hours. (Windows only)
 
 ### What it looks like so far (could be better):
-  ![mainwindow](https://github.com/introlab/rendezvous/blob/master/screenshots/mainwindow.png)
+  ![mainwindow](https://github.com/alexmo16/TimesheetAssistant/blob/master/screenshots/mainwindow.PNG)
 
 ## Dependencies:
   - Qt 5.14.1
