@@ -15,20 +15,20 @@ namespace View
 		m_ui.restartWarningLabel->hide();
 
 		m_ui.logoffCheckBox->setChecked( m_pConfig->get( Model::Config::Keys::LOGOFF_ACTIVATED ).toBool() );
-		connect( m_ui.logoffCheckBox, &QCheckBox::stateChanged,
-			[ this ]( int /*state_*/ ) { onLogoffChanged( *m_ui.logoffCheckBox ); } );
+		connect( m_ui.logoffCheckBox, &QCheckBox::clicked,
+			[ this ]( bool /*state_*/ ) { onLogoffChanged( *m_ui.logoffCheckBox ); } );
 
 		m_ui.logonCheckBox->setChecked( m_pConfig->get( Model::Config::Keys::LOGON_ACTIVATED ).toBool() );
-		connect( m_ui.logonCheckBox, &QCheckBox::stateChanged,
-			[ this ]( int /*state_*/ ) { onLogonChanged( *m_ui.logonCheckBox ); } );
+		connect( m_ui.logonCheckBox, &QCheckBox::clicked,
+			[ this ]( bool /*state_*/ ) { onLogonChanged( *m_ui.logonCheckBox ); } );
 
 		m_ui.lockedCheckBox->setChecked( m_pConfig->get( Model::Config::Keys::LOCKED_ACTIVATED ).toBool() );
-		connect( m_ui.lockedCheckBox, &QCheckBox::stateChanged,
-			[ this ]( int /*state_*/ ) { onLockedChanged( *m_ui.lockedCheckBox ); } );
+		connect( m_ui.lockedCheckBox, &QCheckBox::clicked,
+			[ this ]( bool /*state_*/ ) { onLockedChanged( *m_ui.lockedCheckBox ); } );
 
 		m_ui.unlockedCheckBox->setChecked( m_pConfig->get( Model::Config::Keys::UNLOCKED_ACTIVATED ).toBool() );
-		connect( m_ui.unlockedCheckBox, &QCheckBox::stateChanged,
-			[ this ]( int /*state_*/ ) { onUnlockedChanged( *m_ui.unlockedCheckBox ); } );
+		connect( m_ui.unlockedCheckBox, &QCheckBox::clicked,
+			[ this ]( bool /*state_*/ ) { onUnlockedChanged( *m_ui.unlockedCheckBox ); } );
 	}
 
 	void SettingsDialog::onLogonChanged( const QCheckBox& checkbox_ )
