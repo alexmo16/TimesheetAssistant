@@ -55,7 +55,7 @@ namespace Model
 		}
 
 		// Init Parser
-		QueryParser parser( this );
+		QueryParser parser( m_pConfig, this );
 
 		// Init Data
 		TEvents events;

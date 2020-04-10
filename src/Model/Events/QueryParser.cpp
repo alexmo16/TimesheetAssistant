@@ -1,5 +1,6 @@
 #include "QueryParser.h"
 
+#include "Config/Config.h"
 #include "Event.h"
 #include "Utils/NotImplemented.h"
 
@@ -115,7 +116,36 @@ namespace Model
 		events_ = std::move( filteredEvents );
 	}
 
-	QueryParser::QueryParser( QObject* pParent_ /*= Q_NULLPTR*/ ) : QObject( pParent_ ) {}
+	bool isEventActivated( const Config& config_, const Event::EventType eventType_ )
+	{
+		bool isActivated = false;
+
+		switch ( eventType_ )
+		{
+		case Event::EventType::E_LOCKED:
+			isActivated = config_.get( Config::Keys::LOCKED_ACTIVATED ).toBool();
+			break;
+		case Event::EventType::E_UNLOCKED:
+			isActivated = config_.get( Config::Keys::UNLOCKED_ACTIVATED ).toBool();
+			break;
+		case Event::EventType::E_LOGOFF:
+			isActivated = config_.get( Config::Keys::LOGOFF_ACTIVATED ).toBool();
+			break;
+		case Event::EventType::E_LOGON:
+			isActivated = config_.get( Config::Keys::LOGON_ACTIVATED ).toBool();
+			break;
+		default:
+			isActivated = false;
+			break;
+		}
+
+		return isActivated;
+	}
+
+	QueryParser::QueryParser( QSharedPointer<Config> pConfig_, QObject* pParent_ /*= Q_NULLPTR*/ )
+		: m_pConfig( pConfig_ ), QObject( pParent_ )
+	{
+	}
 
 	// Enumerate all the events in the result set.
 	DWORD QueryParser::parseToEvents( const EVT_HANDLE& results_, Model::TEvents& xmlEvents_ ) const
@@ -144,7 +174,7 @@ namespace Model
 				{
 					break;
 				}
-				if ( pTmpEvent != nullptr )
+				if ( pTmpEvent != nullptr && isEventActivated( *m_pConfig, pTmpEvent->getEventType() ) )
 				{
 					xmlEvents_.push_back( std::move( pTmpEvent ) );
 				}

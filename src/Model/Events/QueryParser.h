@@ -1,8 +1,10 @@
 #pragma once
 
+#include "Config/Config.h"
 #include "Event.h"
 
 #include <QObject>
+#include <QSharedPointer>
 
 #include <windows.h>
 #include <winevt.h>
@@ -22,11 +24,14 @@ namespace Model
 		};
 		Q_ENUM( EventsFilter )
 
-		QueryParser( QObject* pParent_ = Q_NULLPTR );
+		QueryParser( QSharedPointer<Config> pConfig_, QObject* pParent_ = Q_NULLPTR );
 
 		DWORD parseToEvents( const EVT_HANDLE& results_, Model::TEvents& xmlEvents_ ) const;
 
 		void applyEventsFilter( const EventsFilter filter_, Model::TEvents& events_ ) const;
+
+	private:
+		QSharedPointer<Config> m_pConfig;
 	};
 
 } // namespace Model
