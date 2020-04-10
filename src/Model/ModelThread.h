@@ -1,6 +1,7 @@
 #pragma once
 #pragma once
 
+#include "Config/Config.h"
 #include "Events/Event.h"
 #include "Timesheet/Timesheet.h"
 
@@ -14,7 +15,7 @@ namespace Model
 		Q_OBJECT
 
 	public:
-		ModelThread( QObject* pParent_ = Q_NULLPTR );
+		ModelThread( QSharedPointer<Config> pConfig_, QObject* pParent_ = Q_NULLPTR );
 		~ModelThread() = default;
 
 		void run() override;
@@ -24,6 +25,7 @@ namespace Model
 		void timesheetUpdated( const QSharedPointer<Timesheet>& timesheet_ );
 
 	private:
+		QSharedPointer<Config> m_pConfig;
 		bool m_isRunning = false;
 	};
 } // namespace Model

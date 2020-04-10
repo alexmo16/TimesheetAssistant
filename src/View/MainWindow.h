@@ -5,6 +5,7 @@
 #include "Components/AboutDialog.h"
 #include "Components/HelpDialog.h"
 #include "Components/SettingsDialog.h"
+#include "Model/Config/Config.h"
 #include "Model/Events/Event.h"
 
 #include <QDate>
@@ -32,9 +33,9 @@ namespace View
 		Q_OBJECT
 
 	public:
-		MainWindow( std::shared_ptr<Model::ModelThread> pModelThread_, QSharedPointer<QSettings> pSettings_,
+		MainWindow( std::unique_ptr<Model::ModelThread> pModelThread_, QSharedPointer<Model::Config> pConfig_,
 			QWidget* pParent_ = Q_NULLPTR );
-		~MainWindow() = default;
+		//~MainWindow() = default;
 
 	protected:
 		void closeEvent( QCloseEvent* pEvent_ ) override;
@@ -55,7 +56,7 @@ namespace View
 		HelpDialog m_helpDialog;
 		AboutDialog m_aboutDialog;
 		SettingsDialog m_settingsDialog;
-		std::shared_ptr<Model::ModelThread> m_pModelThread;
+		std::unique_ptr<Model::ModelThread> m_pModelThread;
 		QVector<QLineEdit*> m_workDays;
 		QVector<QString> m_workDaysStrings;
 		QDate m_mondayDate;

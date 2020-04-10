@@ -14,9 +14,10 @@
 namespace View
 {
 	MainWindow::MainWindow(
-		std::shared_ptr<Model::ModelThread> pModelThread_, QSharedPointer<QSettings> pSettings_, QWidget* pParent_ )
-		: QMainWindow( pParent_ ), m_pModelThread( pModelThread_ ), m_helpDialog( this ), m_aboutDialog( this ),
-		  m_settingsDialog( pSettings_, this ), m_currentDayTotalTime( QTime( 0, 0 ) ), m_totalWorkTime( QTime( 0, 0 ) )
+		std::unique_ptr<Model::ModelThread> pModelThread_, QSharedPointer<Model::Config> pConfig_, QWidget* pParent_ )
+		: QMainWindow( pParent_ ), m_pModelThread( std::move( pModelThread_ ) ), m_helpDialog( this ),
+		  m_aboutDialog( this ), m_settingsDialog( pConfig_, this ), m_currentDayTotalTime( QTime( 0, 0 ) ),
+		  m_totalWorkTime( QTime( 0, 0 ) )
 	{
 		m_ui.setupUi( this );
 

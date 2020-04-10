@@ -1,5 +1,6 @@
 #include "ModelThread.h"
 
+#include "Config/Config.h"
 #include "Events/Event.h"
 #include "Events/QueryParser.h"
 #include "Timesheet/Timesheet.h"
@@ -16,7 +17,8 @@ namespace Model
 	void _logEvents( const TEvents& events_ );
 	void _logTimesheet( const Timesheet& timesheet_ );
 
-	ModelThread::ModelThread( QObject* pParent_ ) : QThread( pParent_ )
+	ModelThread::ModelThread( QSharedPointer<Config> pConfig_, QObject* pParent_ )
+		: m_pConfig( pConfig_ ), QThread( pParent_ )
 	{
 		this->moveToThread( this );
 	}
