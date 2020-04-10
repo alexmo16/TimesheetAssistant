@@ -4,7 +4,6 @@
 #include "Events/Event.h"
 #include "Events/QueryParser.h"
 #include "Timesheet/Timesheet.h"
-#include "Timesheet/TimesheetBuilder.h"
 
 #include <QDebug>
 #include <QThread>
@@ -60,7 +59,6 @@ namespace Model
 
 		// Init Data
 		TEvents events;
-		TimesheetBuilder timesheetBuilder( this );
 		QSharedPointer<Timesheet> timesheet = QSharedPointer<Timesheet>( new Timesheet( this ) );
 
 		// Thread loop
@@ -85,7 +83,7 @@ namespace Model
 				if ( !events.empty() && events.size() >= 2 )
 				{
 					_logEvents( events );
-					timesheetBuilder.build( events, *timesheet );
+					build( events, *timesheet );
 					qInfo() << "-------------------------------------------------";
 					_logTimesheet( *timesheet );
 					emit timesheetUpdated( timesheet );

@@ -13,7 +13,7 @@ namespace Model
 	constexpr auto CHUNK_SIZE = 10;
 	constexpr auto TIMEOUT = 1000;
 
-	DWORD _convertEvent( EVT_HANDLE event_, std::unique_ptr<Model::Event>& pXmlEvent_ )
+	DWORD convertEvent( EVT_HANDLE event_, std::unique_ptr<Model::Event>& pXmlEvent_ )
 	{
 		DWORD status = ERROR_SUCCESS;
 		DWORD bufferSize = 0;
@@ -68,7 +68,7 @@ namespace Model
 		return status;
 	}
 
-	void _keepCurrentWeekEvents( Model::TEvents& events_ )
+	void keepCurrentWeekEvents( Model::TEvents& events_ )
 	{
 		Model::TEvents filteredEvents;
 
@@ -91,7 +91,7 @@ namespace Model
 		events_ = std::move( filteredEvents );
 	}
 
-	void _keepWeekendEvents( Model::TEvents& events_ )
+	void keepWeekendEvents( Model::TEvents& events_ )
 	{
 
 		Model::TEvents filteredEvents;
@@ -139,7 +139,7 @@ namespace Model
 			std::unique_ptr<Model::Event> pTmpEvent;
 			for ( DWORD i = 0; i < wordReturned; i++ )
 			{
-				status = _convertEvent( events[ i ], pTmpEvent );
+				status = convertEvent( events[ i ], pTmpEvent );
 				if ( status != ERROR_SUCCESS )
 				{
 					break;
@@ -171,10 +171,10 @@ namespace Model
 		switch ( filter_ )
 		{
 		case EventsFilter::E_CURRENT_WEEK_EVENTS:
-			_keepCurrentWeekEvents( events_ );
+			keepCurrentWeekEvents( events_ );
 			break;
 		case EventsFilter::E_WEEKEND_EVENTS:
-			_keepWeekendEvents( events_ );
+			keepWeekendEvents( events_ );
 			break;
 		default:
 			Q_ASSERT_X( false, "ApplyEventsFilter", "Filter type not supported" );

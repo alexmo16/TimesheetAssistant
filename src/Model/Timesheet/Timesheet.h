@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Events/Event.h"
 #include "WorkDay.h"
 
 #include <QObject>
@@ -24,4 +25,5 @@ namespace Model
 		TWorkDays m_workDays;
 	};
 
+	void build( const TEvents& events_, Timesheet& timesheet_ );
 } // namespace Model

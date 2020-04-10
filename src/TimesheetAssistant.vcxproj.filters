@@ -43,9 +43,6 @@
     <ClCompile Include="Model\Timesheet\Timesheet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Model\Timesheet\TimesheetBuilder.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Model\Timesheet\WorkDay.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -83,9 +80,6 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="Model\Timesheet\Timesheet.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="Model\Timesheet\TimesheetBuilder.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="Model\Timesheet\WorkDay.h">

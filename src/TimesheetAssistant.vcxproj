@@ -144,7 +144,6 @@ $(QTDIR)\bin\windeployqt.exe $(OutDir)</Command>
     <ClCompile Include="Model\ModelThread.cpp" />
     <ClCompile Include="Model\Events\QueryParser.cpp" />
     <ClCompile Include="Model\Timesheet\Timesheet.cpp" />
-    <ClCompile Include="Model\Timesheet\TimesheetBuilder.cpp" />
     <ClCompile Include="Model\Timesheet\WorkDay.cpp" />
     <ClCompile Include="View\MainWindow.cpp" />
   </ItemGroup>
@@ -179,9 +178,6 @@ $(QTDIR)\bin\windeployqt.exe $(OutDir)</Command>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Model\Timesheet\Timesheet.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <QtMoc Include="Model\Timesheet\TimesheetBuilder.h" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Model\Timesheet\WorkDay.h" />
