@@ -12,6 +12,7 @@ namespace View
 	{
 		m_ui.setupUi( this );
 		setWindowFlag( Qt::WindowContextHelpButtonHint, false );
+		m_ui.restartWarningLabel->hide();
 
 		m_ui.logoffCheckBox->setChecked( m_pConfig->get( Model::Config::Keys::LOGOFF_ACTIVATED ).toBool() );
 		connect( m_ui.logoffCheckBox, &QCheckBox::stateChanged,
@@ -32,21 +33,25 @@ namespace View
 
 	void SettingsDialog::onLogonChanged( const QCheckBox& checkbox_ )
 	{
+		m_ui.restartWarningLabel->show();
 		m_pConfig->set( Model::Config::Keys::LOGON_ACTIVATED, checkbox_.isChecked() );
 	}
 
 	void SettingsDialog::onLogoffChanged( const QCheckBox& checkbox_ )
 	{
+		m_ui.restartWarningLabel->show();
 		m_pConfig->set( Model::Config::Keys::LOGOFF_ACTIVATED, checkbox_.isChecked() );
 	}
 
 	void SettingsDialog::onLockedChanged( const QCheckBox& checkbox_ )
 	{
+		m_ui.restartWarningLabel->show();
 		m_pConfig->set( Model::Config::Keys::LOCKED_ACTIVATED, checkbox_.isChecked() );
 	}
 
 	void SettingsDialog::onUnlockedChanged( const QCheckBox& checkbox_ )
 	{
+		m_ui.restartWarningLabel->show();
 		m_pConfig->set( Model::Config::Keys::UNLOCKED_ACTIVATED, checkbox_.isChecked() );
 	}
 } // namespace View

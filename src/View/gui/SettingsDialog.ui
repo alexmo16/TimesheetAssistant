@@ -177,6 +177,22 @@
        </item>
       </layout>
      </widget>
+     <widget class="QLabel" name="restartWarningLabel">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>130</y>
+        <width>251</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(255, 0, 0)</string>
+      </property>
+      <property name="text">
+       <string>*** Application restart required ***</string>
+      </property>
+     </widget>
     </widget>
    </item>
   </layout>
