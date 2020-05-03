@@ -3,6 +3,7 @@
 #include "Model/Events/Event.h"
 #include "Model/ModelThread.h"
 #include "Model/Timesheet/Timesheet.h"
+#include "Model/Timesheet/WeekTime.h"
 #include "Model/Timesheet/WorkDay.h"
 
 #include <QAction>
@@ -16,8 +17,7 @@ namespace View
 	MainWindow::MainWindow(
 		std::unique_ptr<Model::ModelThread> pModelThread_, QSharedPointer<Model::Config> pConfig_, QWidget* pParent_ )
 		: QMainWindow( pParent_ ), m_pModelThread( std::move( pModelThread_ ) ), m_helpDialog( this ),
-		  m_aboutDialog( this ), m_settingsDialog( pConfig_, this ), m_currentDayTotalTime( QTime( 0, 0 ) ),
-		  m_totalWorkTime( QTime( 0, 0 ) )
+		  m_aboutDialog( this ), m_settingsDialog( pConfig_, this ), m_currentDayTotalTime( QTime( 0, 0 ) )
 	{
 		m_ui.setupUi( this );
 
@@ -53,7 +53,7 @@ namespace View
 
 			pWorkDayLineEdit->setText( m_workDaysStrings.at( index ) );
 		}
-		m_ui.totalTime->setText( m_totalWorkTime.toString( "H'h'mm" ) );
+		m_ui.totalTime->setText( Model::weekTimeToString( m_totalWorkTime ) );
 	}
 
 	void MainWindow::onRefreshClicked()
@@ -74,7 +74,6 @@ namespace View
 		m_workDaysStrings[ index ] = m_currentDayTotalTime.toString( "H'h'mm" );
 
 		calculateTotalTime();
-
 		update();
 	}
 
@@ -156,11 +155,11 @@ namespace View
 
 	void MainWindow::calculateTotalTime()
 	{
-		QTime totalTime( 0, 0 );
+		m_totalWorkTime.reset();
+
 		for ( auto& workdayString : m_workDaysStrings )
 		{
-			totalTime = totalTime.addMSecs( QTime::fromString( workdayString, "H'h'mm" ).msecsSinceStartOfDay() );
+			m_totalWorkTime.addTime( QTime::fromString( workdayString, "H'h'mm" ).msecsSinceStartOfDay() );
 		}
-		m_totalWorkTime = totalTime;
 	}
 } // namespace View

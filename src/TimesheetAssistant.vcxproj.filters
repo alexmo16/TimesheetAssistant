@@ -58,6 +58,9 @@
     <ClCompile Include="Model\Config\Config.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Model\Timesheet\WeekTime.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\TimesheetAssistant.ico">
@@ -97,6 +100,9 @@
     <QtMoc Include="Model\Config\Config.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="Model\Timesheet\WeekTime.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="View\gui\HelpDialog.ui">
@@ -117,6 +123,7 @@
     <None Include="..\README.md" />
     <None Include="Resources\TimesheetAssistant.aps" />
     <None Include="Resources\rt_manif.bin" />
+    <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Model\Utils\NotImplemented.h">

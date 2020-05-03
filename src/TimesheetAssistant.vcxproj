@@ -136,6 +136,7 @@ $(QTDIR)\bin\windeployqt.exe $(OutDir)</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Model\Config\Config.cpp" />
+    <ClCompile Include="Model\Timesheet\WeekTime.cpp" />
     <ClCompile Include="View\Components\SettingsDialog.cpp" />
     <ClCompile Include="View\Components\AboutDialog.cpp" />
     <ClCompile Include="View\Components\HelpDialog.cpp" />
@@ -167,6 +168,7 @@ $(QTDIR)\bin\windeployqt.exe $(OutDir)</Command>
   <ItemGroup>
     <None Include="..\.clang-format" />
     <None Include="..\README.md" />
+    <None Include="cpp.hint" />
     <None Include="Resources\rt_manif.bin" />
     <None Include="Resources\TimesheetAssistant.aps" />
   </ItemGroup>
@@ -183,6 +185,7 @@ $(QTDIR)\bin\windeployqt.exe $(OutDir)</Command>
     <QtMoc Include="Model\Timesheet\WorkDay.h" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="Model\Timesheet\WeekTime.h" />
     <QtMoc Include="View\Components\SettingsDialog.h" />
     <QtMoc Include="View\Components\HelpDialog.h" />
     <QtMoc Include="View\Components\AboutDialog.h" />

@@ -7,6 +7,7 @@
 #include "Components/SettingsDialog.h"
 #include "Model/Config/Config.h"
 #include "Model/Events/Event.h"
+#include "Model/Timesheet/WeekTime.h"
 
 #include <QDate>
 #include <QElapsedTimer>
@@ -62,7 +63,7 @@ namespace View
 		QDate m_mondayDate;
 		QDate m_fridayDate;
 		QTime m_currentDayTotalTime;
-		QTime m_totalWorkTime;
+		Model::WeekTime m_totalWorkTime;
 		QElapsedTimer m_currentDayTimer;
 	};
 
